@@ -1,6 +1,8 @@
 import { Navbar, Container, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
+
 import Cart from "./Cart";
+import UserIcon from "./UserIcon";
 
 interface IBarProps {
     brand: JSX.Element,
@@ -26,7 +28,7 @@ function Bar(props: IBarProps) {
                     className="me-2"
                     aria-label="Search"
                 />
-                <Button variant="outline-success"> <BsSearch/> </Button>
+                <Button variant="outline-success"> <BsSearch /> </Button>
             </Form>
         </Nav.Item>
     );
@@ -47,6 +49,9 @@ function Bar(props: IBarProps) {
                                 a
                                 <Cart />
                             </Nav.Item>
+                            <Nav.Link>
+                                <UserIcon />
+                            </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
