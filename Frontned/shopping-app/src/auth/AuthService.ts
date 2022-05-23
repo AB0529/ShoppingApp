@@ -1,6 +1,45 @@
 import { BehaviorSubject } from 'rxjs';
 import { handleResponse } from './HandleResponse';
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser') as string));
+
+interface ITag {
+    tagID: number,
+    tag: string,
+    item: IItem,
+}
+
+interface IItem {
+    price: number,
+    name: string,
+    image: string,
+    description: string,
+    tags: Array<ITag>
+}
+
+interface ICart {
+    user: IUser,
+    items: Array<IItem>,
+    cartID: number
+}
+
+interface ICard {
+    user: IUser,
+    cvc: number,
+    cardNumber: string,
+    type: string,
+    expiration: string
+}
+
+interface IUser {
+    userID: number
+    name: string
+    userName: string,   
+    passWord: string,
+    address: string,
+    cart: ICart,
+    card: ICard
+}
+
+const currentUserSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser') as string));
 
 export const authenticationService = {
     login,
