@@ -34,8 +34,9 @@ function Login() {
 										navigate("/");
 									},
 										error => {
+											console.log(error);
 											setSubmitting(false);
-											setStatus(error);
+											setStatus("Invalid login");
 										}
 									);
 							}}

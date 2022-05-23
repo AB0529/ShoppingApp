@@ -25,26 +25,21 @@ return (
 								confirmPassword: '',
 							}}
 							validationSchema={Yup.object().shape({
-								username: Yup.string().required('Username is required').test('Username already in use', async user => {
-									const resp = await fetch(`/users/${user}`);
-
-									if (resp.status === 409)
-										return true;
-
-									return false;
-								}),
+								username: Yup.string().required('Username is required'),
 								password: Yup.string().required('Password is required'),
 								confirmPassword: Yup.string().required('Type your password again').oneOf([Yup.ref('password'), null], 'Passwords must match')
 							})}
-							onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
+							onSubmit={async ({ username, password }, { setStatus, setSubmitting }) => {
+								setSubmitting(true);
 								setStatus();
+
 								authenticationService.register(username, password)
 									.then(() => {
 										navigate("/");
 									},
 										error => {
 											setSubmitting(false);
-											setStatus(error);
+											setStatus(error === 409 ? "Username already in use" : "Error while trying to register");
 										}
 									);
 							}}

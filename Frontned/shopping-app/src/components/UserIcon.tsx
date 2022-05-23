@@ -7,31 +7,26 @@ interface IUserIcon {
 }
 
 function UserIcon(props: IUserIcon) {
-    const navUserIcon = (
-        <Nav.Link href="/profile">
-            <strong><BiUserCircle /> {authenticationService.currentUserValue}</strong>
-        </Nav.Link>
-    );
-    const navLogin = (
-        <Nav.Link href="/login">
-            <strong>Login</strong>
-        </Nav.Link>
-    )
-    const userIcon = (
-        <strong><BiUserCircle /> {authenticationService.currentUserValue}</strong>
-    );
-    const login = (
+    if (authenticationService.currentUserValue && props.navItem)
+        return (
+            <Nav.Link href="/profile">
+                <strong><BiUserCircle /> {authenticationService.currentUserValue.userName}</strong>
+            </Nav.Link>
+        );
+    else if (authenticationService.currentUserValue && !props.navItem)
+        return (
+            <strong><BiUserCircle /> {authenticationService.currentUserValue.userName}</strong>
+        );
+    else if (!authenticationService.currentUserValue && props.navItem)
+        return (
+            <Nav.Link href="/login">
+                <strong>Login</strong>
+            </Nav.Link>
+        );
+
+    return (
         <strong>Login</strong>
     );
-
-    if (authenticationService.currentUserValue && props.navItem)
-        return navUserIcon;
-    else if (authenticationService.currentUserValue && !props.navItem)
-        return userIcon;
-    else if (!authenticationService.currentUserValue && props.navItem)
-        return navLogin;
-
-    return login;
 }
 
 export default UserIcon;

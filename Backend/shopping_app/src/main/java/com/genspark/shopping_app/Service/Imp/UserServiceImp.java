@@ -36,6 +36,29 @@ public class UserServiceImp implements UserService {
         return user;
     }
 
+    public User getUserByPassword(String pw) {
+        Optional<User> u = this.userRepository.findByPassWord(pw);
+        User user = null;
+        if(u.isPresent()){
+            user = u.get();
+        } else {
+            throw new RuntimeException("User not found for password: " + pw);
+        }
+        return user;
+    }
+
+    public User getUserByUsername(String un) {
+        Optional<User> u = this.userRepository.findByUserName(un);
+
+        User user = null;
+        if(u.isPresent()){
+            user = u.get();
+        } else {
+            throw new RuntimeException("User not found for username: " + un);
+        }
+        return user;
+    }
+
     @Override
     public String deleteUserByID(int userID) {
         this.userRepository.deleteById(userID);

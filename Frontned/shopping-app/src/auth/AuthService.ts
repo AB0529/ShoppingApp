@@ -14,10 +14,10 @@ function register(username: string, password: string) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username: username, password: password })
     };
 
-    return fetch(`/users/register`, requestOptions)
+    return fetch(`http://localhost:9080/users/register`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // Store user details as jwt token
@@ -35,7 +35,7 @@ function login(username: string, password: string) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`/users/authenticate`, requestOptions)
+    return fetch(`http://localhost:9080/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // Store user details as jwt token
