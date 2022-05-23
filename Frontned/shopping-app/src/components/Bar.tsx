@@ -1,11 +1,14 @@
 import { Navbar, Container, Nav, Form, FormControl, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom"; 
 import { BsSearch } from "react-icons/bs";
 
 import Cart from "./Cart";
 import UserIcon from "./UserIcon";
-
+import { useState } from "react";
 
 function Bar() {
+    const navigate = useNavigate();
+
     const barBrand = (
         <img
             src="/logo.png"
@@ -33,14 +36,15 @@ function Bar() {
 
     const searchBar = (
         <Nav.Item>
-            <Form className="d-flex">
+            <Form className="d-flex" style={{width: 250}}>
                 <FormControl
-                    type="search"
+                    type="text"
                     placeholder="Search"
                     className="me-2"
                     aria-label="Search"
+                    name="query"
                 />
-                <Button variant="outline-success"> <BsSearch /> </Button>
+                <Button variant="success" type="submit"> <BsSearch /> </Button>
             </Form>
         </Nav.Item>
     );
@@ -57,8 +61,7 @@ function Bar() {
                         </Nav>
                         <Nav id="bar" navbarScroll>
                             {searchBar}
-                            <Nav.Item>
-                                a
+                            <Nav.Item style={{paddingLeft: 5}}>
                                 <Cart />
                             </Nav.Item>
                             <UserIcon navItem />
