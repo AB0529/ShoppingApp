@@ -4,11 +4,11 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { BiUserCircle, BiLock } from "react-icons/bi";
 import * as Yup from 'yup';
 
-import "./login.scss";
+import "./register.scss";
 import { Card } from "react-bootstrap";
 import Bar from "../../components/Bar";
 
-function Login() {
+function Register() {
 	const navigate = useNavigate();
 	const barBrand = (
 		<img
@@ -33,23 +33,31 @@ function Login() {
 	return (
 		<>
 			<Bar brand={barBrand} items={barItems} />
-
-			<div className="login-wrapper">
+			<div className="register-wrapper">
 				<Card>
-					<Card.Header as="h5">Login</Card.Header>
+					<Card.Header as="h5">Register</Card.Header>
 					<Card.Body>
 						<Formik
 							initialValues={{
 								username: '',
-								password: ''
+								password: '',
+								confirmPassword: '',
 							}}
 							validationSchema={Yup.object().shape({
-								username: Yup.string().required('Username is required'),
-								password: Yup.string().required('Password is required')
+								username: Yup.string().required('Username is required').test('Username already in use', async user => {
+									const resp = await fetch(`/users/${user}`);
+
+									if (resp.status == 409)
+										return true;
+
+									return false;
+								}),
+								password: Yup.string().required('Password is required'),
+								confirmPassword: Yup.string().required('Type your password again').oneOf([Yup.ref('password'), null], 'Passwords must match')
 							})}
 							onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
 								setStatus();
-								authenticationService.login(username, password)
+								authenticationService.register(username, password)
 									.then(() => {
 										navigate("/");
 									},
@@ -72,10 +80,15 @@ function Login() {
 										<ErrorMessage name="password" component="div" className="invalid-feedback" />
 									</div>
 									<div className="form-group">
+										<label htmlFor="password"> <BiLock /> <strong>Confirm Password</strong></label>
+										<Field name="confirmPassword" type="password" className={'form-control' + (errors.confirmPassword ? ' is-invalid' : '')} />
+										<ErrorMessage name="confirmPassword" component="div" className="invalid-feedback" />
+									</div>
+									<div className="form-group">
 										<br />
-										<button type="submit" className="btn btn-success" disabled={isSubmitting}>Login</button>
+										<button type="submit" className="btn btn-success" disabled={isSubmitting}>Register</button>
 										{isSubmitting && <img src="/loading.gif" />}
-										{' '} <a href="/register">Not a member?</a>
+										{' '} <a href="/login">Already a member?</a>
 									</div>
 									{status && <div className={'alert alert-danger'}>{status}</div>}
 								</Form>
@@ -88,5 +101,5 @@ function Login() {
 	)
 }
 
-export default Login;
+export default Register;
 

@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NotFound from './pages/not-found/notFound';
 import Login from './pages/login/login';
 import { PrivateRoute } from './auth/PrivateRoute';
+import Register from './pages/register/register';
 
 // TODO: Impliment cart
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/cart" element={<NotFound />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
