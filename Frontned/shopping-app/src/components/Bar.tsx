@@ -49,9 +49,7 @@ function Bar(props: IBarProps) {
                                 a
                                 <Cart />
                             </Nav.Item>
-                            <Nav.Link>
-                                <UserIcon />
-                            </Nav.Link>
+                            <UserIcon navItem/>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
