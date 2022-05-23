@@ -4,11 +4,8 @@ import { BsSearch } from "react-icons/bs";
 
 import Cart from "./Cart";
 import UserIcon from "./UserIcon";
-import { useState } from "react";
 
 function Bar() {
-    const navigate = useNavigate();
-
     const barBrand = (
         <img
             src="/logo.png"
@@ -51,7 +48,7 @@ function Bar() {
 
     return (
         <>
-            <Navbar bg="dark" variant="dark" expand="lg">
+            <Navbar bg="dark" variant="dark" /*expand="lg"*/>
                 <Container fluid>
                     <Navbar.Brand href="#">{barBrand}</Navbar.Brand>
                     <Navbar.Toggle aria-controls="bar" />
@@ -64,8 +61,9 @@ function Bar() {
                             <Nav.Item style={{paddingLeft: 5}}>
                                 <Cart />
                             </Nav.Item>
-                            <UserIcon navItem />
                         </Nav>
+                        <UserIcon navItem />
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
