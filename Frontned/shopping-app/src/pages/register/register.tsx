@@ -28,7 +28,7 @@ return (
 								username: Yup.string().required('Username is required').test('Username already in use', async user => {
 									const resp = await fetch(`/users/${user}`);
 
-									if (resp.status == 409)
+									if (resp.status === 409)
 										return true;
 
 									return false;
@@ -68,7 +68,7 @@ return (
 									<div className="form-group">
 										<br />
 										<button type="submit" className="btn btn-success" disabled={isSubmitting}>Register</button>
-										{isSubmitting && <img src="/loading.gif" />}
+										{isSubmitting && <img src="/loading.gif" alt="loading" />}
 										{' '} <a href="/login">Already a member?</a>
 									</div>
 									{status && <div className={'alert alert-danger'}>{status}</div>}
