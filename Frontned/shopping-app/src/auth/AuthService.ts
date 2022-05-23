@@ -50,4 +50,5 @@ function logout() {
     // Remove from local storage as a logout
     localStorage.removeItem('currentUser');
     currentUserSubject.next(null);
+    window.location.reload();
 }
