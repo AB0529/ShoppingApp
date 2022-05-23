@@ -10,29 +10,10 @@ import Bar from "../../components/Bar";
 
 function Register() {
 	const navigate = useNavigate();
-	const barBrand = (
-		<img
-			src="/logo.png"
-			width="30"
-			height="30"
-			className="d-inline-block align-top"
-			alt="Logo"
-		/>
-	)
-	const barItems = [
-		{
-			name: "Home",
-			href: "/"
-		},
-		{
-			name: "Catalog",
-			href: "/catalog",
-		}
-	];
 
 	return (
 		<>
-			<Bar brand={barBrand} items={barItems} />
+			<Bar />
 			<div className="register-wrapper">
 				<Card>
 					<Card.Header as="h5">Register</Card.Header>
@@ -47,7 +28,7 @@ function Register() {
 								username: Yup.string().required('Username is required').test('Username already in use', async user => {
 									const resp = await fetch(`/users/${user}`);
 
-									if (resp.status == 409)
+									if (resp.status === 409)
 										return true;
 
 									return false;
