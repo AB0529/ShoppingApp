@@ -8,6 +8,7 @@ import Login from './pages/login/login';
 import Register from './pages/register/register';
 import Profile from './pages/profile/profile';
 import { PrivateRoute } from './auth/PrivateRoute';
+import Register from './pages/register/register';
 
 // TODO: Impliment cart
 function App() {

@@ -10,11 +10,29 @@ import Bar from "../../components/Bar";
 
 function Login() {
 	const navigate = useNavigate();
-
+	const barBrand = (
+		<img
+			src="/logo.png"
+			width="30"
+			height="30"
+			className="d-inline-block align-top"
+			alt="Logo"
+		/>
+	)
+	const barItems = [
+		{
+			name: "Home",
+			href: "/"
+		},
+		{
+			name: "Catalog",
+			href: "/catalog",
+		}
+	];
+  
 	return (
 		<>
-			<Bar />
-
+      <Bar />
 			<div className="login-wrapper">
 				<Card>
 					<Card.Header as="h5">Login</Card.Header>

@@ -11,7 +11,7 @@ import Bar from "../../components/Bar";
 function Register() {
 	const navigate = useNavigate();
 
-	return (
+return (
 		<>
 			<Bar />
 			<div className="register-wrapper">
@@ -28,7 +28,7 @@ function Register() {
 								username: Yup.string().required('Username is required').test('Username already in use', async user => {
 									const resp = await fetch(`/users/${user}`);
 
-									if (resp.status === 409)
+									if (resp.status == 409)
 										return true;
 
 									return false;
