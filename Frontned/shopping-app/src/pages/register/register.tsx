@@ -10,29 +10,10 @@ import Bar from "../../components/Bar";
 
 function Register() {
 	const navigate = useNavigate();
-	const barBrand = (
-		<img
-			src="/logo.png"
-			width="30"
-			height="30"
-			className="d-inline-block align-top"
-			alt="Logo"
-		/>
-	)
-	const barItems = [
-		{
-			name: "Home",
-			href: "/"
-		},
-		{
-			name: "Catalog",
-			href: "/catalog",
-		}
-	];
 
-	return (
+return (
 		<>
-			<Bar brand={barBrand} items={barItems} />
+			<Bar />
 			<div className="register-wrapper">
 				<Card>
 					<Card.Header as="h5">Register</Card.Header>

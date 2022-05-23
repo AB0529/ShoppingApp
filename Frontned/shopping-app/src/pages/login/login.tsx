@@ -29,11 +29,10 @@ function Login() {
 			href: "/catalog",
 		}
 	];
-
+  
 	return (
 		<>
-			<Bar brand={barBrand} items={barItems} />
-
+      <Bar />
 			<div className="login-wrapper">
 				<Card>
 					<Card.Header as="h5">Login</Card.Header>
