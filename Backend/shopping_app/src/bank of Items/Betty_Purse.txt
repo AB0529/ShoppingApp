@@ -1,0 +1,5 @@
+tags:purse,
+	
+price:10050.99
+
+description: A lovely Betty Boop purse, with long straps

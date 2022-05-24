@@ -1,0 +1,6 @@
+tags:jackets
+
+price:2564.18
+
+description:This jacket comes with its own pocket, back, and head cooker.
+perfect for reheating left overs, or cooking chicken wings in.
