@@ -1,7 +1,9 @@
 package com.genspark.shopping_app.Controller;
 
+import com.genspark.shopping_app.Entity.ApiResponse;
 import com.genspark.shopping_app.Entity.Item;
 import com.genspark.shopping_app.Repository.Services.ItemService;
+import com.genspark.shopping_app.Service.Imp.ItemServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,37 +14,37 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
     @Autowired
-    private ItemService itemService;
+    private ItemServiceImp itemServiceImp;
 
     @GetMapping("/{iId}")
     public ResponseEntity getItem(@PathVariable int iId){
         try{
-            return new ResponseEntity(this.itemService.getItemByID(iId), HttpStatus.OK);}
+            return new ResponseEntity(new ApiResponse("Item found", this.itemServiceImp.getItemByID(iId)), HttpStatus.OK);}
         catch (Exception e){
-            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ApiResponse("Item not found", null), HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity addItem(@RequestBody Item item){
         try {
-            return new ResponseEntity(this.itemService.addItem(item),HttpStatus.OK);
+            return new ResponseEntity(new ApiResponse("Item added", this.itemServiceImp.addItem(item)), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity(null,HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ApiResponse("Item not found", null), HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/")
+    @PutMapping("/update")
     public ResponseEntity updateItem(@RequestBody Item item){
         try {
-            return new ResponseEntity(this.itemService.updateItem(item), HttpStatus.OK);
+            return new ResponseEntity(new ApiResponse("Item updated", this.itemServiceImp.updateItem(item)), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity(null,HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ApiResponse("Item not found", null), HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/{iId}")
+    @DeleteMapping("/delete/{iId}")
     public ResponseEntity deleteItem(@PathVariable int iId){
-        return new ResponseEntity(this.itemService.deleteItemByID(iId),HttpStatus.OK);
+        return new ResponseEntity(new ApiResponse("Item deleted", this.itemServiceImp.deleteItemByID(iId)), HttpStatus.OK);
     }
 
 }
