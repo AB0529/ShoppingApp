@@ -64,7 +64,7 @@ public class Item {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
