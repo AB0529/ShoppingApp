@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { authenticationService } from "../../auth/AuthService";
 import Bar from "../../components/Bar";
 
+import './profile.scss';
+
 function Profile() {
 	const user = authenticationService.currentUserValue;
 	const navigate = useNavigate();

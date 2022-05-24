@@ -32,13 +32,10 @@ function Login() {
 								authenticationService.login(username, password)
 									.then(() => {
 										navigate("/");
-									},
-										error => {
-											console.log(error);
-											setSubmitting(false);
-											setStatus("Invalid login");
-										}
-									);
+									}).catch(() => {
+										setSubmitting(false);
+										setStatus("Invalid login");
+									});
 							}}
 							render={({ errors, status, touched, isSubmitting }) => (
 								<Form>

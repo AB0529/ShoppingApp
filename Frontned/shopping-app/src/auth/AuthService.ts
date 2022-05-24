@@ -45,6 +45,7 @@ export const authenticationService = {
     login,
     logout,
     register,
+    checkLogin,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() { return currentUserSubject.value }
 };
@@ -90,4 +91,18 @@ function logout() {
     localStorage.removeItem('currentUser');
     currentUserSubject.next(null);
     window.location.reload();
+}
+
+function checkLogin() {
+    let user: IUser | null = currentUserSubject.getValue();
+
+    if (!user || user === undefined)
+        return;
+
+    fetch(`http://localhost:9080/users/id/${user?.userID}`).then(handleResponse).then((res) => {
+        if (!res) {
+            logout();
+            window.location.reload();
+        }
+    }).catch((e) => console.log(e));
 }

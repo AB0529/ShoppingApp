@@ -12,11 +12,19 @@ import { darkTheme, lightTheme } from './theme/theme';
 import { GlobalStyles } from './components/GlobalStyle';
 import { useTheme } from './components/UseTheme';
 import Toggle from './components/ThemeToggler';
+import { authenticationService } from './auth/AuthService';
+import { useEffect } from 'react';
 
 // TODO: Impliment cart
 function App() {
   const [theme, themeToggler] = useTheme();
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
+
+  // Refresh login
+  useEffect(() => {
+    authenticationService.checkLogin();
+  }, [])
+  
 
   return (
     <ThemeProvider theme={themeMode}>
