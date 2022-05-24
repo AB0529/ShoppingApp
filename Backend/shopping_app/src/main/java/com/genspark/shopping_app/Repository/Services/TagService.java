@@ -1,6 +1,9 @@
 package com.genspark.shopping_app.Repository.Services;
 
+import com.genspark.shopping_app.Entity.Item;
 import com.genspark.shopping_app.Entity.Tag;
+
+import java.util.Iterator;
 
 public interface TagService {
 
@@ -8,6 +11,6 @@ public interface TagService {
     Tag updateTag(Tag tag);
     Tag getTagByID(int tagID);
     String deleteTagByID(int tagID);
-    Iterable<Object> getItemsByTagName(String name);
+    Iterator<Item> getItemsByTagName(String name);
 
 }

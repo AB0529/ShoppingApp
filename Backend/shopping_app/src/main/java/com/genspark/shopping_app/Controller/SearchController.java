@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -24,9 +25,9 @@ public class SearchController {
 
     @GetMapping("/tag/{query}")
     public ResponseEntity itemsFromTag(@PathVariable String query) {
-        Iterable<Object> items = tagServiceImp.getItemsByTagName(query);
+        Iterator<Item> items = tagServiceImp.getItemsByTagName(query);
 
-        if (!items.iterator().hasNext())
+        if (!items.hasNext())
             return new ResponseEntity(new ApiResponse("Item not found", null), HttpStatus.NOT_FOUND);
 
         return new ResponseEntity(new ApiResponse("Items found", items), HttpStatus.OK);
@@ -34,9 +35,9 @@ public class SearchController {
 
     @GetMapping("/name/{query}")
     public ResponseEntity itemsFromName(@PathVariable String query) {
-        Iterable<Object> items = itemServiceImp.getItemsByName(query);
+        Iterator<Item> items = itemServiceImp.getItemsByName(query);
 
-        if (!items.iterator().hasNext())
+        if (!items.hasNext())
             return new ResponseEntity(new ApiResponse("Item not found", null), HttpStatus.NOT_FOUND);
 
         return new ResponseEntity(new ApiResponse("Items found", items), HttpStatus.OK);    }

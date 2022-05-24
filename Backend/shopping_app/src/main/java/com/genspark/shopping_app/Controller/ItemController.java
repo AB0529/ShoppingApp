@@ -25,6 +25,15 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/all")
+    public ResponseEntity getAllItems(){
+        try{
+            return new ResponseEntity(new ApiResponse("Items found", this.itemServiceImp.getAllItems()), HttpStatus.OK);}
+        catch (Exception e){
+            return new ResponseEntity(new ApiResponse("Items not found", null), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity addItem(@RequestBody Item item){
         try {
