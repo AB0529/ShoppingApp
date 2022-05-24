@@ -20,7 +20,7 @@ public class Item {
     @JoinColumn(name = "item")
     private List<Tag> tags;
     @Column
-    private int price;
+    private double price;
     @Column
     private String name;
     @Column
