@@ -36,12 +36,10 @@ return (
 								authenticationService.register(username, password)
 									.then(() => {
 										navigate("/");
-									},
-										error => {
-											setSubmitting(false);
-											setStatus(error === 409 ? "Username already in use" : "Error while trying to register");
-										}
-									);
+									}).catch((e: any) => {
+										setSubmitting(false);
+										setStatus("Something went wrong: " + e.message);
+									});
 							}}
 							render={({ errors, status, touched, isSubmitting }) => (
 								<Form>

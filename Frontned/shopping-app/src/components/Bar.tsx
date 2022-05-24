@@ -1,5 +1,4 @@
 import { Navbar, Container, Nav, Form, FormControl, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom"; 
 import { BsSearch } from "react-icons/bs";
 
 import Cart from "./Cart";
