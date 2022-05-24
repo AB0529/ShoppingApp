@@ -2,25 +2,25 @@ package com.genspark.shopping_app.Entity;
 
 import org.springframework.http.HttpStatus;
 
-public class Response {
+public class ApiResponse {
     private HttpStatus status;
     private String message;
     private Object result;
 
-    public Response(String message, Object result) {
+    public ApiResponse(String message, Object result) {
         this.message = message;
         this.result = result;
     }
-    public Response(HttpStatus status, String message) {
+    public ApiResponse(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
     }
-    public Response(HttpStatus status, String message, Object result) {
+    public ApiResponse(HttpStatus status, String message, Object result) {
         this.status = status;
         this.message = message;
         this.result = result;
     }
-    public Response() {}
+    public ApiResponse() {}
 
     public Object getResult() {
         return result;
