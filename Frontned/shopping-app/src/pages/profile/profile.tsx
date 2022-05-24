@@ -1,7 +1,23 @@
-function profile() {
+import { Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { authenticationService } from "../../auth/AuthService";
+import Bar from "../../components/Bar";
+
+function Profile() {
+	const user = authenticationService.currentUserValue;
+	const navigate = useNavigate();
+
+	if (!user)
+		navigate(-1);
+
 	return (
-		<h1>Hi</h1>
+		<>
+			<Bar />
+			<Container fluid>
+				<h1>{user?.userName.toUpperCase()}</h1>
+			</Container>
+		</>
 	)
 }
 
-export default profile;
+export default Profile;
