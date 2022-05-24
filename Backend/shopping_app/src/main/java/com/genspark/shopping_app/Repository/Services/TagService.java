@@ -8,5 +8,6 @@ public interface TagService {
     Tag updateTag(Tag tag);
     Tag getTagByID(int tagID);
     String deleteTagByID(int tagID);
+    Iterable<Object> getItemsByTagName(String name);
 
 }
