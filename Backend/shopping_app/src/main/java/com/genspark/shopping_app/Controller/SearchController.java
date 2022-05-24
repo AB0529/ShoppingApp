@@ -31,4 +31,13 @@ public class SearchController {
 
         return new ResponseEntity(new ApiResponse("Items found", items), HttpStatus.OK);
     }
+
+    @GetMapping("/name/{query}")
+    public ResponseEntity itemsFromName(@PathVariable String query) {
+        Iterable<Object> items = itemServiceImp.getItemsByName(query);
+
+        if (!items.iterator().hasNext())
+            return new ResponseEntity(new ApiResponse("Item not found", null), HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity(new ApiResponse("Items found", items), HttpStatus.OK);    }
 }
