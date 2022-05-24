@@ -20,7 +20,7 @@ public class Item {
     @JoinColumn(name = "item")
     private List<Tag> tags;
     @Column
-    private int price;
+    private double price;
     @Column
     private String name;
     @Column
@@ -64,7 +64,7 @@ public class Item {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

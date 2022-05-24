@@ -15,7 +15,7 @@ public class User {
     private String name;
     @Column
     private String address;
-    @Column
+    @Column(unique = true)
     private String userName;
     @Column
     private String passWord;

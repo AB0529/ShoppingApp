@@ -10,26 +10,7 @@ import Bar from "../../components/Bar";
 
 function Login() {
 	const navigate = useNavigate();
-	const barBrand = (
-		<img
-			src="/logo.png"
-			width="30"
-			height="30"
-			className="d-inline-block align-top"
-			alt="Logo"
-		/>
-	)
-	const barItems = [
-		{
-			name: "Home",
-			href: "/"
-		},
-		{
-			name: "Catalog",
-			href: "/catalog",
-		}
-	];
-  
+
 	return (
 		<>
       <Bar />
@@ -51,12 +32,10 @@ function Login() {
 								authenticationService.login(username, password)
 									.then(() => {
 										navigate("/");
-									},
-										error => {
-											setSubmitting(false);
-											setStatus(error);
-										}
-									);
+									}).catch(() => {
+										setSubmitting(false);
+										setStatus("Invalid login");
+									});
 							}}
 							render={({ errors, status, touched, isSubmitting }) => (
 								<Form>
@@ -73,7 +52,7 @@ function Login() {
 									<div className="form-group">
 										<br />
 										<button type="submit" className="btn btn-success" disabled={isSubmitting}>Login</button>
-										{isSubmitting && <img src="/loading.gif" />}
+										{isSubmitting && <img src="/loading.gif" alt="loading" />}
 										{' '} <a href="/register">Not a member?</a>
 									</div>
 									{status && <div className={'alert alert-danger'}>{status}</div>}
