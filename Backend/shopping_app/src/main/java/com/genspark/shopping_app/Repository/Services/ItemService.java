@@ -8,6 +8,9 @@ public interface ItemService {
     Item addItem(Item item);
     Item updateItem(Item item);
     Item getItemByID(int itemID);
+
+    Iterable<Object> getItemsByName(String name);
+
     String deleteItemByID(int itemID);
 
 }

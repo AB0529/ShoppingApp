@@ -6,6 +6,9 @@ import com.genspark.shopping_app.Repository.Services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,6 +38,19 @@ public class ItemServiceImp implements ItemService {
             throw new RuntimeException("User not found for ID: " + itemID);
         }
         return item;
+    }
+
+    @Override
+    public Iterable<Object> getItemsByName(String name) {
+        Iterable<Integer> ids = itemRepository.findItemsByName(name);
+        List<Item> items = new ArrayList<>();
+
+        ids.forEach(i -> {
+            Item item = getItemByID(i);
+            items.add(item);
+        });
+
+        return Collections.singleton(items);
     }
 
     @Override
