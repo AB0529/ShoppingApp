@@ -24,6 +24,7 @@ public class PopulateServiceImpl implements PopulateService
     @Override
     public String populateDatabase()
     {
+        // trying to get all of the txt files read and put in as items for ItemRepository
         List<File> filesInFolder;
 
         try
@@ -38,7 +39,6 @@ public class PopulateServiceImpl implements PopulateService
 
         for (File file : filesInFolder)
         {
-
             try (BufferedReader reader = new BufferedReader(new FileReader(file)))
             {
                 List<String> content = Files.readAllLines(file.toPath());
