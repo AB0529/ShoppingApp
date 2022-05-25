@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Arrays;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -23,44 +24,52 @@ public class PopulateServiceImpl implements PopulateService
     @Override
     public String populateDatabase()
     {
-        File folder = new File("static/catalog");
-        File[] listOfFiles = folder.listFiles(filter);
+        List<File> filesInFolder;
 
-        for (File file : listOfFiles)
+        try
         {
-            if (file.exists() && file.isFile() && file.canRead())
-            {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file)))
-                {
-                    List<String> content = Files.readAllLines(file.toPath());
-                    for (var line : content)
-                    {
-                        if (line.contains("tags"))
-                        {
-                            String[] currentLine = line.split(":,");
-                            tags.add((Tag) Arrays.stream(currentLine)
-                                    .filter(x -> !x.equalsIgnoreCase("tags")
-                                            && !x.equals(":")
-                                            && !x.equals(",")));
-                        }
-                        if (line.contains("price"))
-                        {
-                            String[] currentLine = line.split(":");
-                            this.price = Integer.parseInt(currentLine[2]);
-                        }
-                    }
-                } catch (IOException e)
-                {
-                    throw new RuntimeException(e);
-                }
-
-                Item item = new Item();
-                item.setName(file.getName().replace(".txt", ""));
-                item.setPrice(price);
-                item.setTags(tags);
-                itemRepository.save(item);
-            }
+            filesInFolder = Files.walk(Paths.get("src/main/resources/static/catalog/Army_Watch.txt"))
+                    .map(Path::toFile).toList();
+        } catch (IOException e)
+        {
+            throw new RuntimeException(e);
         }
+
+
+        for (File file : filesInFolder)
+        {
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(file)))
+            {
+                List<String> content = Files.readAllLines(file.toPath());
+                for (var line : content)
+                {
+                    //  get tags
+                    if (line.contains("tags"))
+                    {
+                        String[] currentLine = line.split("[:,]+");
+                        Tag tag = new Tag();
+                        tag.setTag(currentLine[1]);
+                    }
+                    // get price
+                    if (line.contains("price"))
+                    {
+                        String[] currentLine = line.split(":");
+                        this.price = (int) Double.parseDouble(currentLine[1]);
+                    }
+                }
+            } catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
+
+            Item item = new Item();
+            item.setName(file.getName().replace(".txt", ""));
+            item.setPrice(price);
+            item.setTags(tags);
+            itemRepository.save(item);
+        }
+
         return itemRepository.findAll().toString();
     }
 
