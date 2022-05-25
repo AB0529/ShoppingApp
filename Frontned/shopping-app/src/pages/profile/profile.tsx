@@ -1,12 +1,14 @@
-import { ErrorMessage, Field, Formik } from "formik";
-import { Card, Col, Container, Form, Row } from "react-bootstrap";
+import { ErrorMessage, Field, Formik, Form } from "formik";
+import { Button, Card, Col, Container, Row, FormGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { authenticationService } from "../../auth/AuthService";
 import Bar from "../../components/Bar";
 
 import * as Yup from 'yup';
 import './profile.scss';
+import { handleResponse } from "../../auth/HandleResponse";
 
+// TODO: SUEPR BUGGY, FIX
 function Profile() {
 	const user = authenticationService.currentUserValue;
 	const navigate = useNavigate();
@@ -39,21 +41,29 @@ function Profile() {
 										validationSchema={Yup.object().shape({
 											username: Yup.string().required('Username is required'),
 										})}
-										onSubmit={({ username }, { setStatus, setSubmitting }) => {
+										onSubmit={async ({ username }, { setStatus, setSubmitting }) => {
 											setStatus();
-											console.log('Change username');
+											setSubmitting(true);
+											authenticationService.updateUsername(username as string)
+											.then((resp: any) => {
+												console.log(resp);
+											}).catch((e: any) => {
+												setSubmitting(false);
+												setStatus(e);
+											});
 										}}
+									
 										render={({ errors, status, touched, isSubmitting }) => (
 											<Form>
-												<Form.Group>
+												<FormGroup>
 													<Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
 													<ErrorMessage name="username" component="div" className="invalid-feedback" />
-												</Form.Group>
-												<Form.Group>
+												</FormGroup>
+												<FormGroup>
 													<br />
-													<button type="submit" className="btn btn-success" disabled={isSubmitting}>Submit</button>
+													<Button type="submit" variant="success" disabled={isSubmitting}>Submit</Button>
 													{isSubmitting && <img src="/loading.gif" alt="loading" />}
-												</Form.Group>
+												</FormGroup>
 												{status && <div className={'alert alert-danger'}>{status}</div>}
 											</Form>
 										)}
@@ -76,8 +86,8 @@ function Profile() {
 								<Card.Text>
 									<Formik
 										initialValues={user?.name !== null ? {
-											firstName: user?.name.split(' ')[0],
-											lastName: user?.name.split(' ')[1],
+											firstName: user?.name.firstName,
+											lastName: user?.name.lastName,
 										} : {
 											firstName: '',
 											lastName: ''
@@ -92,20 +102,20 @@ function Profile() {
 										}}
 										render={({ errors, status, touched, isSubmitting }) => (
 											<Form>
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="First name" name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
 													<ErrorMessage name="firstName" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="Last name" name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
 													<ErrorMessage name="lastName" component="div" className="invalid-feedback" />
-												</Form.Group>
-												<Form.Group>
+												</FormGroup>
+												<FormGroup>
 													<br />
 													<button type="submit" className="btn btn-success" disabled={isSubmitting}>Submit</button>
 													{isSubmitting && <img src="/loading.gif" alt="loading" />}
-												</Form.Group>
+												</FormGroup>
 												{status && <div className={'alert alert-danger'}>{status}</div>}
 											</Form>
 										)}
@@ -128,10 +138,10 @@ function Profile() {
 								<Card.Text>
 									<Formik
 										initialValues={user?.address !== null ? {
-											street: user?.address.split(' ')[0],
-											city: user?.address.split(' ')[1],
-											state: user?.address.split(' ')[2],
-											zipcode: user?.address.split(' ')[3]
+											street: user?.address.street,
+											city: user?.address.city,
+											state: user?.address.state,
+											zipcode: user?.address.zipcode
 										} : {
 
 											street: '',
@@ -151,31 +161,31 @@ function Profile() {
 										}}
 										render={({ errors, status, touched, isSubmitting }) => (
 											<Form>
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="Enter street" name="street" type="text" className={'form-control' + (errors.street && touched.street ? ' is-invalid' : '')} />
 													<ErrorMessage name="street" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="Enter city" name="street" type="text" className={'form-control' + (errors.city && touched.city ? ' is-invalid' : '')} />
 													<ErrorMessage name="city" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="Enter State" name="state" type="text" className={'form-control' + (errors.state && touched.state ? ' is-invalid' : '')} />
 													<ErrorMessage name="state" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="Enter zipcode" name="zipcode" type="text" className={'form-control' + (errors.zipcode && touched.zipcode ? ' is-invalid' : '')} />
 													<ErrorMessage name="zipcode" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<br />
 													<button type="submit" className="btn btn-success" disabled={isSubmitting}>Submit</button>
 													{isSubmitting && <img src="/loading.gif" alt="loading" />}
-												</Form.Group>
+												</FormGroup>
 												{status && <div className={'alert alert-danger'}>{status}</div>}
 											</Form>
 										)}
@@ -226,31 +236,31 @@ function Profile() {
 										}}
 										render={({ errors, status, touched, isSubmitting }) => (
 											<Form>
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="Enter card number" name="cardNumber" type="text" className={'form-control' + (errors.cardNumber && touched.cardNumber ? ' is-invalid' : '')} />
 													<ErrorMessage name="cardNumber" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="MM/YY" name="expiration" type="text" className={'form-control' + (errors.expiration && touched.expiration ? ' is-invalid' : '')} />
 													<ErrorMessage name="expiration" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="VISA" name="type" type="text" className={'form-control' + (errors.type && touched.type ? ' is-invalid' : '')} />
 													<ErrorMessage name="type" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<Field placeholder="123" name="cvc" type="text" className={'form-control' + (errors.cvc && touched.cvc ? ' is-invalid' : '')} />
 													<ErrorMessage name="cvc" component="div" className="invalid-feedback" />
-												</Form.Group>
+												</FormGroup>
 												<br />
-												<Form.Group>
+												<FormGroup>
 													<br />
 													<button type="submit" className="btn btn-success" disabled={isSubmitting}>Submit</button>
 													{isSubmitting && <img src="/loading.gif" alt="loading" />}
-												</Form.Group>
+												</FormGroup>
 												{status && <div className={'alert alert-danger'}>{status}</div>}
 											</Form>
 										)}

@@ -1,5 +1,8 @@
 package com.genspark.shopping_app.Entity;
 
+import com.genspark.shopping_app.Model.UserAddress;
+import com.genspark.shopping_app.Model.UserName;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,9 +14,8 @@ public class User {
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userID;
-    @Column
+
     private String name;
-    @Column
     private String address;
     @Column(unique = true)
     private String userName;
@@ -28,7 +30,7 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
     private Set<Card> card;
 
-    public User(int userID, String name, String address, String userName, String passWord,Cart cart,Set<Card> card) {
+    public User(int userID, String name, String address, String userName, String passWord, Cart cart, Set<Card> card) {
 
         this.userID = userID;
         this.name = name;

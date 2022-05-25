@@ -1,8 +1,7 @@
 package com.genspark.shopping_app.Controller;
 
-import com.genspark.shopping_app.Entity.ApiResponse;
+import com.genspark.shopping_app.Model.ApiResponse;
 import com.genspark.shopping_app.Entity.Item;
-import com.genspark.shopping_app.Repository.Services.ItemService;
 import com.genspark.shopping_app.Service.Imp.ItemServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -38,7 +38,7 @@ return (
 										navigate("/");
 									}).catch((e: any) => {
 										setSubmitting(false);
-										setStatus("Something went wrong: " + e.message);
+										setStatus("Something went wrong: " + e);
 									});
 							}}
 							render={({ errors, status, touched, isSubmitting }) => (
