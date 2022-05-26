@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import "./register.scss";
 import { Card } from "react-bootstrap";
 import Bar from "../../components/Bar";
+import Footer from "../../components/Footer";
 
 function Register() {
 	const navigate = useNavigate();
@@ -71,6 +72,7 @@ return (
 					</Card.Body>
 				</Card>
 			</div>
+			<Footer />
 		</>
 	)
 }
