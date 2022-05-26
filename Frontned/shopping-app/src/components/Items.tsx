@@ -1,11 +1,29 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, FormControl, Row } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 import { IItem, ITag } from "../auth/AuthService";
 import config from "../config/config";
 
 function Items() {
 	const [items, setItems] = useState<Array<IItem>>([]);
 	const [filteredItems, setFilteredItems] = useState<Array<IItem>>([]);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const handleSearch = (event: any, v: string|null) => {
+		let value = v ? v : event.target.value.toLowerCase();
+		let result = [];
+		
+		result = items.filter((item: IItem) => {
+			let query = item.tags.map((tag: ITag) => tag.tag).join('!').toLowerCase();
+			query += item.name.toLowerCase();
+			query += item.description.toLowerCase();
+			
+			return query.includes(value.toLowerCase());
+		});
+		
+		setFilteredItems(result);
+	}
+	
 
 	useEffect(() => {
 		fetch(`${config.apiURL}/items/all`).then(resp => resp.json()).then((data) => {
@@ -14,21 +32,10 @@ function Items() {
 		}).catch((e) => console.error(`Error getting all items: ${e}`));
 	}, [])
 
-
-	const handleSearch = (event: any) => {
-		let value = event.target.value.toLowerCase();
-		let result = [];
-
-		result = items.filter((item: IItem) => {
-			let query = item.tags.map((tag: ITag) => tag.tag).join('m').toLowerCase();
-			query += item.name.toLowerCase();
-			query += item.description.toLowerCase();
-
-			return query.includes(value.toLowerCase());
-		});
-
-		setFilteredItems(result);
-	}
+	useEffect(() => {
+		if (searchParams.get('query'))
+			handleSearch(null, searchParams.get('query'))
+	});
 
 	return (
 		<Container fluid>
@@ -38,11 +45,12 @@ function Items() {
 					<hr className="title-line" style={{ borderColor: "#42f554" }} />
 					<Form>
 					<FormControl
+						id="searchBar"
 						type="text"
 						placeholder="Search"
 						className="me-2"
 						aria-label="Search"
-						onChange={(event) => handleSearch(event)}
+						onChange={(event) => handleSearch(event, null)}
 					/>
 				</Form>
 				</h1>
@@ -50,7 +58,7 @@ function Items() {
 
 			<Container>
 				<Row md="auto" className="d-flex align-items-center justify-content-center">
-					{filteredItems.map((item: IItem) => {
+					{filteredItems ? filteredItems.map((item: IItem) => {
 						return (
 							<Col sm={4} py={2}>
 								<Card className="item-card d-flex align-items-center justify-content-center" style={{ width: '18rem', height: '50rem' }}>
@@ -73,7 +81,9 @@ function Items() {
 								</Card>
 							</Col>
 						)
-					})}
+					}) : (
+						<h1>Loading...</h1>
+					)}
 				</Row>
 			</Container>
 		</Container >
