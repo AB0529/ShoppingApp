@@ -5,7 +5,7 @@ export const lightTheme = {
     toggleBorder: '#FFF',
     background: '#363537',
     tagBG: "#eee",
-    cardBody: '#fff',
+    cardBody: '#F2F3F5',
     // cardHeader: "#f7f7f7",
 }
 export const darkTheme = {
