@@ -2,13 +2,13 @@ import { BehaviorSubject } from 'rxjs';
 import config from '../config/config';
 import { handleResponse } from './HandleResponse';
 
-interface ITag {
+export interface ITag {
     tagID: number,
     tag: string,
     item: IItem,
 }
 
-interface IItem {
+export interface IItem {
     price: number,
     name: string,
     image: string,
