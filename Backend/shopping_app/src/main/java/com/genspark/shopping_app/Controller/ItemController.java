@@ -33,6 +33,15 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/all/{max}")
+    public ResponseEntity getAllItems(@PathVariable int max) {
+        try{
+            return new ResponseEntity(new ApiResponse("Items found", this.itemServiceImp.getAllItemsMax(max)), HttpStatus.OK);}
+        catch (Exception e){
+            return new ResponseEntity(new ApiResponse("Items not found", null), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity addItem(@RequestBody Item item){
         try {

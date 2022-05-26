@@ -14,6 +14,8 @@ public interface ItemService {
 
     Iterator<Item> getAllItems();
 
+    Iterator<Item> getAllItemsMax(int max);
+
     String deleteItemByID(int itemID);
 
 }

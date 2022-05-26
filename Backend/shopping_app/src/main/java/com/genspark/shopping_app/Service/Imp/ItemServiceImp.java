@@ -58,6 +58,13 @@ public class ItemServiceImp implements ItemService {
     }
 
     @Override
+    public Iterator<Item> getAllItemsMax(int max) {
+        Iterable<Item> items = this.itemRepository.findAllMax(max);
+
+        return items.iterator();
+    }
+
+    @Override
     public String deleteItemByID(int itemID) {
         this.itemRepository.deleteById(itemID);
 

@@ -13,4 +13,7 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item,Integer> {
     @Query(value = "SELECT * FROM tbl_items WHERE tbl_items.name LIKE concat('%', :name, '%')", nativeQuery = true)
     List<Integer> findItemsByName(@Param("name") String name);
+
+    @Query(value = "SELECT * FROM tbl_items LIMIT :m", nativeQuery = true)
+    Iterable<Item> findAllMax(@Param("m") int max);
 }
