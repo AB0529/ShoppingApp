@@ -6,10 +6,7 @@ import com.genspark.shopping_app.Repository.Services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ItemServiceImp implements ItemService {
@@ -41,7 +38,7 @@ public class ItemServiceImp implements ItemService {
     }
 
     @Override
-    public Iterable<Object> getItemsByName(String name) {
+    public Iterator<Item> getItemsByName(String name) {
         Iterable<Integer> ids = itemRepository.findItemsByName(name);
         List<Item> items = new ArrayList<>();
 
@@ -50,7 +47,21 @@ public class ItemServiceImp implements ItemService {
             items.add(item);
         });
 
-        return Collections.singleton(items);
+        return items.iterator();
+    }
+
+    @Override
+    public Iterator<Item> getAllItems() {
+        Iterable<Item> items = this.itemRepository.findAll();
+
+        return items.iterator();
+    }
+
+    @Override
+    public Iterator<Item> getAllItemsMax(int max) {
+        Iterable<Item> items = this.itemRepository.findAllMax(max);
+
+        return items.iterator();
     }
 
     @Override

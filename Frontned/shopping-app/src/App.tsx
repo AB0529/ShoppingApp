@@ -14,6 +14,7 @@ import { useTheme } from './components/UseTheme';
 import Toggle from './components/ThemeToggler';
 import { authenticationService } from './auth/AuthService';
 import { useEffect } from 'react';
+import Catalog from './pages/catalog/catalog';
 
 // TODO: Impliment cart
 function App() {
@@ -42,6 +43,7 @@ function App() {
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/catalog" element={<Catalog />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

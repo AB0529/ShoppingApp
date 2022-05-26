@@ -1,7 +1,8 @@
 package com.genspark.shopping_app.Repository.Services;
 
-import com.genspark.shopping_app.Entity.Card;
 import com.genspark.shopping_app.Entity.Item;
+
+import java.util.Iterator;
 
 public interface ItemService {
 
@@ -9,7 +10,11 @@ public interface ItemService {
     Item updateItem(Item item);
     Item getItemByID(int itemID);
 
-    Iterable<Object> getItemsByName(String name);
+    Iterator<Item> getItemsByName(String name);
+
+    Iterator<Item> getAllItems();
+
+    Iterator<Item> getAllItemsMax(int max);
 
     String deleteItemByID(int itemID);
 

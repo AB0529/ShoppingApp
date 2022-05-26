@@ -13,4 +13,14 @@ export const GlobalStyles = createGlobalStyle<any>`
     background: ${({theme}) => theme.cardBody};
     color: ${({ theme }) => theme.text};
   }
+  .tag {
+    background: ${({theme}) => theme.tagBG};
+  }
+  .tag::after {
+    background: ${({theme}) => theme.cardBody};
+    border-left: 10px solid ${({theme}) => theme.tagBG};
+  }
+  .tag::before {
+    background: ${({theme}) => theme.tagBG};
+  }
   `

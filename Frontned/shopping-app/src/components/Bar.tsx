@@ -1,10 +1,13 @@
+import { FormEventHandler } from "react";
 import { Navbar, Container, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 import Cart from "./Cart";
 import UserIcon from "./UserIcon";
 
 function Bar() {
+    const navigate = useNavigate();
     const barBrand = (
         <img
             src="/logo.png"
@@ -32,7 +35,10 @@ function Bar() {
 
     const searchBar = (
         <Nav.Item>
-            <Form className="d-flex" style={{width: 250}}>
+            <Form className="d-flex" style={{width: 250}} onSubmit={(event: any) => {
+                // event.preventDefault();
+                navigate(`/catalog?query=${event.target[0].value}`)
+            }}>
                 <FormControl
                     type="text"
                     placeholder="Search"

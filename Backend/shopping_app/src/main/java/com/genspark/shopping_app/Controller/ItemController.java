@@ -1,8 +1,7 @@
 package com.genspark.shopping_app.Controller;
 
-import com.genspark.shopping_app.Entity.ApiResponse;
+import com.genspark.shopping_app.Model.ApiResponse;
 import com.genspark.shopping_app.Entity.Item;
-import com.genspark.shopping_app.Repository.Services.ItemService;
 import com.genspark.shopping_app.Service.Imp.ItemServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +21,24 @@ public class ItemController {
             return new ResponseEntity(new ApiResponse("Item found", this.itemServiceImp.getItemByID(iId)), HttpStatus.OK);}
         catch (Exception e){
             return new ResponseEntity(new ApiResponse("Item not found", null), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity getAllItems(){
+        try{
+            return new ResponseEntity(new ApiResponse("Items found", this.itemServiceImp.getAllItems()), HttpStatus.OK);}
+        catch (Exception e){
+            return new ResponseEntity(new ApiResponse("Items not found", null), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/all/{max}")
+    public ResponseEntity getAllItems(@PathVariable int max) {
+        try{
+            return new ResponseEntity(new ApiResponse("Items found", this.itemServiceImp.getAllItemsMax(max)), HttpStatus.OK);}
+        catch (Exception e){
+            return new ResponseEntity(new ApiResponse("Items not found", null), HttpStatus.NOT_FOUND);
         }
     }
 

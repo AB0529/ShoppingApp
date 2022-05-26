@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import "./register.scss";
 import { Card } from "react-bootstrap";
 import Bar from "../../components/Bar";
+import Footer from "../../components/Footer";
 
 function Register() {
 	const navigate = useNavigate();
@@ -38,7 +39,7 @@ return (
 										navigate("/");
 									}).catch((e: any) => {
 										setSubmitting(false);
-										setStatus("Something went wrong: " + e.message);
+										setStatus("Something went wrong: " + e);
 									});
 							}}
 							render={({ errors, status, touched, isSubmitting }) => (
@@ -71,6 +72,7 @@ return (
 					</Card.Body>
 				</Card>
 			</div>
+			<Footer />
 		</>
 	)
 }

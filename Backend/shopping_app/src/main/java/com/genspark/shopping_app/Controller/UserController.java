@@ -2,14 +2,19 @@ package com.genspark.shopping_app.Controller;
 
 
 import com.genspark.shopping_app.Config.JasyptConfig;
-import com.genspark.shopping_app.Entity.ApiResponse;
+import com.genspark.shopping_app.Entity.Card;
+import com.genspark.shopping_app.Model.ApiResponse;
 import com.genspark.shopping_app.Entity.User;
-import com.genspark.shopping_app.Entity.RegisterRequest;
+import com.genspark.shopping_app.Model.RegisterRequest;
+import com.genspark.shopping_app.Model.UserUpdateRequest;
 import com.genspark.shopping_app.Service.Imp.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -59,11 +64,44 @@ public class UserController
             user.setPassWord(hashedPW);
 
             userServiceImp.addUser(user);
-            return new ResponseEntity(new ApiResponse("User created", null), HttpStatus.CREATED);
+            return new ResponseEntity(new ApiResponse("User created", user), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(new ApiResponse("User already exists", null), HttpStatus.CONFLICT);
+            return new ResponseEntity(new ApiResponse("User already exists", null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity update(@RequestBody UserUpdateRequest user) {
+        System.out.println(user);
+        if (user == null)
+            return new ResponseEntity(new ApiResponse("Insufficient details", null), HttpStatus.BAD_REQUEST);
+        else if (user.getUsername().isEmpty())
+            return new ResponseEntity(new ApiResponse("Username cannot be empty", null), HttpStatus.BAD_REQUEST);
+
+        try {
+            User u = userServiceImp.getUserByID(user.getUserID());
+
+            if (user.getUsername() != null)
+                u.setUserName(user.getUsername());
+            else if (user.getAddress() != null)
+                u.setAddress(String.format("%s, %s, %s %d",
+                        user.getAddress().getStreet(),
+                        user.getAddress().getCity(),
+                        user.getAddress().getState(),
+                        user.getAddress().getZipcode()));
+            else if (user.getCard() != null) {
+                Set<Card> cardSet = new HashSet<>();
+                cardSet.add(user.getCard());
+                u.setCard(cardSet);
+            }
+
+            userServiceImp.updateUser(u);
+
+            return new ResponseEntity(new ApiResponse("User updated", user), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(new ApiResponse("Something went wrong!", null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/authenticate")

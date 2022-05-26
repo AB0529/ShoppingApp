@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import "./login.scss";
 import { Card } from "react-bootstrap";
 import Bar from "../../components/Bar";
+import Footer from "../../components/Footer";
 
 function Login() {
 	const navigate = useNavigate();
@@ -62,6 +63,7 @@ function Login() {
 					</Card.Body>
 				</Card>
 			</div>
+			<Footer />
 		</>
 	)
 }

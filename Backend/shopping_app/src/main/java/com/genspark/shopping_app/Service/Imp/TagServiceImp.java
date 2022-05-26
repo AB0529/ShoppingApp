@@ -7,10 +7,7 @@ import com.genspark.shopping_app.Repository.Services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TagServiceImp implements TagService {
@@ -50,7 +47,7 @@ public class TagServiceImp implements TagService {
     }
 
     @Override
-    public Iterable<Object> getItemsByTagName(String name) {
+    public Iterator<Item> getItemsByTagName(String name) {
         Iterable<Integer> ids = tagRepository.findItemsByTag(name);
         List<Item> items = new ArrayList<>();
 
@@ -60,6 +57,6 @@ public class TagServiceImp implements TagService {
             items.add(item);
         });
 
-        return Collections.singleton(items);
+        return items.iterator();
     }
 }
