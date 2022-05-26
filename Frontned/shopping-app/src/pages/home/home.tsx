@@ -26,11 +26,13 @@ function Home() {
             </div>
 
             <Container fluid className="d-flex align-items-center justify-content-center">
-                <Card style={{ width: '18rem' }}>
+                <Card style={{ width: '25rem' }}>
                     <Card.Body>
-                        <Card.Text>
-                            dfgnkodfjsgh kl;sdfhgnklsdfh gkjdfb gjkdfghb kljdf
-                        </Card.Text>
+                        <h5>We are a team formed under an intense situation to make something new for our cliental, but we came together to create the most orginal ideaever.</h5>
+                        <br />
+                        <h5>A shopping website that will allow it's customers to view an item before purchasing, then it will be delivered to the address of the customer.</h5>
+                        <br />
+                        <h5>This website is totally origianal and any similarities and other websites is only proof they stole from us.</h5>
                     </Card.Body>
                 </Card>
             </Container>
