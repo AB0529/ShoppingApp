@@ -1,5 +1,6 @@
 package com.genspark.shopping_app;
 
+import com.genspark.shopping_app.Service.Imp.PopulateServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
