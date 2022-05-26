@@ -11,7 +11,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class PopulateServiceImpl implements PopulateService
@@ -19,55 +21,49 @@ public class PopulateServiceImpl implements PopulateService
     @Autowired
     public ItemRepository itemRepository;
     private List<Tag> tags;
-    private int price;
+    private double price;
 
     @Override
     public String populateDatabase()
     {
-        // trying to get all of the txt files read and put in as items for ItemRepository
-        List<File> filesInFolder;
-
-        try
+        // trying to get all the txt files read and put in as items for ItemRepository
+        try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
         {
-            filesInFolder = Files.walk(Paths.get("src/main/resources/static/catalog/Army_Watch.txt"))
-                    .map(Path::toFile).toList();
-        } catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-
-
-        for (File file : filesInFolder)
-        {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file)))
-            {
-                List<String> content = Files.readAllLines(file.toPath());
-                for (var line : content)
-                {
-                    //  get tags
-                    if (line.contains("tags"))
+            paths.map(Path::toFile)
+                    .toList().stream().filter(file -> file.getName().endsWith(".txt") && file.isFile() && !file.getName().equals("test.txt"))
+                    .peek(System.out::println)
+                    .forEachOrdered((File file) ->
                     {
-                        String[] currentLine = line.split("[:,]+");
-                        Tag tag = new Tag();
-                        tag.setTag(currentLine[1]);
-                    }
-                    // get price
-                    if (line.contains("price"))
-                    {
-                        String[] currentLine = line.split(":");
-                        this.price = (int) Double.parseDouble(currentLine[1]);
-                    }
-                }
-            } catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-
-            Item item = new Item();
-            item.setName(file.getName().replace(".txt", ""));
-            item.setPrice(price);
-            item.setTags(tags);
-            itemRepository.save(item);
+                        try (BufferedReader reader = new BufferedReader(new FileReader(file)))
+                        {
+                            List<String> content = Files.readAllLines(file.toPath());
+                            for (var line : content)
+                            {
+                                //  get tags
+                                if (line.contains("tags"))
+                                {
+                                    String[] currentLine = line.split("[:,]+");
+                                }
+                                // get price
+                                if (line.contains("price"))
+                                {
+                                    String[] currentLine = line.replace(",", "").split(":");
+                                    this.price = Double.parseDouble(currentLine[1]);
+                                }
+                            }
+                        } catch (IOException e)
+                        {
+                            throw new RuntimeException(e);
+                        }
+                        Item item = new Item();
+                        item.setName(file.getName().replace(".txt", ""));
+                        item.setPrice(price);
+                        item.setTags(tags);
+                        this.itemRepository.save(item);
+                    });
+        } catch (IOException io)
+        {
+            throw new RuntimeException(io.getCause());
         }
 
         return itemRepository.findAll().toString();
