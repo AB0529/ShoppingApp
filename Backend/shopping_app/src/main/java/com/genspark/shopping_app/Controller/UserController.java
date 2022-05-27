@@ -8,6 +8,7 @@ import com.genspark.shopping_app.Model.ApiResponse;
 import com.genspark.shopping_app.Entity.User;
 import com.genspark.shopping_app.Model.RegisterRequest;
 import com.genspark.shopping_app.Model.UserUpdateRequest;
+import com.genspark.shopping_app.Model.UserCard;
 import com.genspark.shopping_app.Service.Imp.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -64,10 +63,8 @@ public class UserController
             System.out.println(hashedPW);
             User user = new User();
             List<Item> cart = new ArrayList<>();
-            Set<Card> cards = new HashSet<>();
 
             user.setCart(cart);
-            user.setCard(cards);
 
             user.setUserName(registerRequest.getUsername());
             user.setPassWord(hashedPW);
@@ -87,8 +84,6 @@ public class UserController
         else if (user.getUserID() == 0)
             return new ResponseEntity(new ApiResponse("ID cannot be empty", null), HttpStatus.BAD_REQUEST);
 
-        System.out.println(user.getCart());
-
         try {
             User u = userServiceImp.getUserByID(user.getUserID());
 
@@ -101,12 +96,25 @@ public class UserController
                         user.getAddress().getState(),
                         user.getAddress().getZipcode()));
             else if (user.getCard() != null) {
-                Set<Card> cardSet = new HashSet<>();
-                cardSet.add(user.getCard());
-                u.setCard(cardSet);
+                Card c = u.getCard();
+                UserCard card = user.getCard();
+
+                if (c == null)
+                    c = new Card();
+
+                c.setType(card.getType());
+                c.setCardNumber(card.getCardNumber());
+                c.setCvc(card.getCvc());
+                c.setExpiration(card.getExpiration());
+
+                u.setCard(c);
+
+                System.out.println(u);
             }
             else if (user.getCart() != null)
                 u.setCart(user.getCart());
+            else if (user.getName() != null)
+                u.setName(user.getName().getFirstName() + ';' + user.getName().getLastName());
 
             userServiceImp.updateUser(u);
 

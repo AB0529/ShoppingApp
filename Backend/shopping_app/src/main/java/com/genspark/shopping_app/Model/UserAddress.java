@@ -4,28 +4,12 @@ import com.genspark.shopping_app.Entity.User;
 
 import javax.persistence.*;
 
-@Entity
 public class UserAddress {
-    @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
-
     private String street;
     private String city;
     private String state;
     private int zipcode;
 
-    @OneToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "address")
-    private User user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getZipcode() {
         return zipcode;
@@ -57,5 +41,15 @@ public class UserAddress {
 
     public void setZipcode(int zipcode) {
         this.zipcode = zipcode;
+    }
+
+    @Override
+    public String toString() {
+        return "UserAddress{" +
+                "street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zipcode=" + zipcode +
+                '}';
     }
 }

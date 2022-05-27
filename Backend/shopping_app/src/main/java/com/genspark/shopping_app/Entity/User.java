@@ -28,10 +28,10 @@ public class User {
     private List<Item> cart;
 
     // linking between card table and user table
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
-    private Set<Card> card;
+    @OneToOne(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
+    private Card card;
 
-    public User(int userID, String name, String address, String userName, String passWord, List<Item> cart, Set<Card> card) {
+    public User(int userID, String name, String address, String userName, String passWord, List<Item> cart, Card card) {
 
         this.userID = userID;
         this.name = name;
@@ -93,11 +93,11 @@ public class User {
         this.passWord = passWord;
     }
 
-    public Set<Card> getCard() {
+    public Card getCard() {
         return card;
     }
 
-    public void setCard(Set<Card> card) {
+    public void setCard(Card card) {
         this.card = card;
     }
 
