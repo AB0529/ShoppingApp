@@ -110,7 +110,7 @@ public class UserController
 
             userServiceImp.updateUser(u);
 
-            return new ResponseEntity(new ApiResponse("User updated", user), HttpStatus.OK);
+            return new ResponseEntity(new ApiResponse("User updated", u), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity(new ApiResponse("Something went wrong!", null), HttpStatus.INTERNAL_SERVER_ERROR);
