@@ -20,24 +20,12 @@ export interface ICard {
     expiration: string
 }
 
-export interface IAddress {
-    street: string,
-    city: string,
-    state: string,
-    zipcode: number
-}
-
-export interface IName {
-    firstName: string,
-    lastName: string
-}
-
 export interface IUser {
     userID: number
-    name: IName
+    name: string
     userName: string,
     passWord: string,
-    address: IAddress
+    address: string
     cart: Array<IItem>
     card: ICard
 }

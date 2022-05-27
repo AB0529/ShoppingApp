@@ -1,6 +1,5 @@
 package com.genspark.shopping_app.Model;
 
-import com.genspark.shopping_app.Entity.Card;
 import com.genspark.shopping_app.Entity.Item;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 public class UserUpdateRequest {
     private String username;
     private UserAddress address;
-    private Card card;
+    private UserCard card;
     private List<Item> cart;
     private UserName name;
     private int userID;
@@ -25,7 +24,7 @@ public class UserUpdateRequest {
         return address;
     }
 
-    public Card getCard() {
+    public UserCard getCard() {
         return card;
     }
 
@@ -45,7 +44,7 @@ public class UserUpdateRequest {
         this.address = address;
     }
 
-    public void setCard(Card card) {
+    public void setCard(UserCard card) {
         this.card = card;
     }
 
@@ -55,5 +54,17 @@ public class UserUpdateRequest {
 
     public void setCart(List<Item> cart) {
         this.cart = cart;
+    }
+
+    @Override
+    public String toString() {
+        return "UserUpdateRequest{" +
+                "username='" + username + '\'' +
+                ", address=" + address +
+                ", card=" + card +
+                ", cart=" + cart +
+                ", name=" + name +
+                ", userID=" + userID +
+                '}';
     }
 }
