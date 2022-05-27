@@ -1,6 +1,7 @@
 package com.genspark.shopping_app.Entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,9 +18,9 @@ public class Cart {
     private User user;
     // linking between cart table and item table
     @OneToMany(fetch = FetchType.EAGER,mappedBy="cart",cascade = CascadeType.ALL)
-    private Set<Item> items;
+    private List<Item> items;
 
-    public Cart(User user, Set<Item> items, int cartID) {
+    public Cart(User user, List<Item> items, int cartID) {
         this.user = user;
         this.items = items;
         this.cartID = cartID;
@@ -35,11 +36,11 @@ public class Cart {
         this.user = userid;
     }
 
-    public Set<Item> getItem() {
+    public List<Item> getItem() {
         return items;
     }
 
-    public void setItem(Set<Item> item) {
+    public void setItem(List<Item> item) {
         this.items = item;
     }
 
