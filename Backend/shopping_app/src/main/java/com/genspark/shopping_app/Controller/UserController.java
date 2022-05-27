@@ -82,11 +82,12 @@ public class UserController
 
     @PostMapping("/update")
     public ResponseEntity update(@RequestBody UserUpdateRequest user) {
-        System.out.println(user);
         if (user == null)
             return new ResponseEntity(new ApiResponse("Insufficient details", null), HttpStatus.BAD_REQUEST);
-        else if (user.getUsername().isEmpty())
-            return new ResponseEntity(new ApiResponse("Username cannot be empty", null), HttpStatus.BAD_REQUEST);
+        else if (user.getUserID() == 0)
+            return new ResponseEntity(new ApiResponse("ID cannot be empty", null), HttpStatus.BAD_REQUEST);
+
+        System.out.println(user.getCart());
 
         try {
             User u = userServiceImp.getUserByID(user.getUserID());
@@ -104,11 +105,14 @@ public class UserController
                 cardSet.add(user.getCard());
                 u.setCard(cardSet);
             }
+            else if (user.getCart() != null)
+                u.setCart(user.getCart());
 
             userServiceImp.updateUser(u);
 
             return new ResponseEntity(new ApiResponse("User updated", user), HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e);
             return new ResponseEntity(new ApiResponse("Something went wrong!", null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

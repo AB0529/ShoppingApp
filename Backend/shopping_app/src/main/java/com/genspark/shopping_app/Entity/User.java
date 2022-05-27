@@ -23,7 +23,7 @@ public class User {
 
     // linking between cart table and user table
 //    @OneToMany(fetch = FetchType.EAGER,mappedBy="cart",cascade = CascadeType.ALL)
-    @OneToMany(cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST,CascadeType.REMOVE})
     @JoinColumn(name = "item")
     private List<Item> cart;
 
