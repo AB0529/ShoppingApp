@@ -1,6 +1,5 @@
 package com.genspark.shopping_app.Service.Imp;
 
-import com.genspark.shopping_app.Entity.Cart;
 import com.genspark.shopping_app.Repository.CartRepository;
 import com.genspark.shopping_app.Repository.Services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,6 +3,7 @@ package com.genspark.shopping_app.Controller;
 
 import com.genspark.shopping_app.Config.JasyptConfig;
 import com.genspark.shopping_app.Entity.Card;
+import com.genspark.shopping_app.Entity.Item;
 import com.genspark.shopping_app.Model.ApiResponse;
 import com.genspark.shopping_app.Entity.User;
 import com.genspark.shopping_app.Model.RegisterRequest;
@@ -13,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -60,6 +63,12 @@ public class UserController
             String hashedPW = jasyptConfig.encryptor().encrypt(registerRequest.getPassword());
             System.out.println(hashedPW);
             User user = new User();
+            List<Item> cart = new ArrayList<>();
+            Set<Card> cards = new HashSet<>();
+
+            user.setCart(cart);
+            user.setCard(cards);
+
             user.setUserName(registerRequest.getUsername());
             user.setPassWord(hashedPW);
 

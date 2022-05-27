@@ -1,9 +1,7 @@
 package com.genspark.shopping_app.Entity;
 
-import com.genspark.shopping_app.Model.UserAddress;
-import com.genspark.shopping_app.Model.UserName;
-
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,13 +22,16 @@ public class User {
     //private String email;
 
     // linking between cart table and user table
-    @OneToOne(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
-    private Cart cart;
+//    @OneToMany(fetch = FetchType.EAGER,mappedBy="cart",cascade = CascadeType.ALL)
+    @OneToMany(cascade= CascadeType.ALL)
+    @JoinColumn(name = "item")
+    private List<Item> cart;
+
     // linking between card table and user table
     @OneToMany(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
     private Set<Card> card;
 
-    public User(int userID, String name, String address, String userName, String passWord, Cart cart, Set<Card> card) {
+    public User(int userID, String name, String address, String userName, String passWord, List<Item> cart, Set<Card> card) {
 
         this.userID = userID;
         this.name = name;
@@ -52,11 +53,11 @@ public class User {
         this.userID = userID;
     }
 
-    public Cart getCart() {
+    public List<Item> getCart() {
         return cart;
     }
 
-    public void setCart(Cart cart) {
+    public void setCart(List<Item> cart) {
         this.cart = cart;
     }
 
