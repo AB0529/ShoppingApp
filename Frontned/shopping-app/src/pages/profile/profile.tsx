@@ -6,7 +6,6 @@ import Bar from "../../components/Bar";
 
 import * as Yup from 'yup';
 import './profile.scss';
-import { handleResponse } from "../../auth/HandleResponse";
 import Footer from "../../components/Footer";
 
 // TODO: SUEPR BUGGY, FIX

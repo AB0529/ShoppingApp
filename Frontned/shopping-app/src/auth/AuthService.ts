@@ -64,6 +64,15 @@ export const authenticationService = {
     get currentUserValue() { return currentUserSubject.value }
 };
 
+// function addToCart(item: IItem) {
+//     const user = currentUserSubject.getValue();
+//     const requestOptions = {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: 
+//     }
+// }
+
 function updateUsername(username: string) {
     const user = currentUserSubject.getValue();
     const requestOptions = {

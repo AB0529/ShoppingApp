@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Image } from "react-bootstrap";
 import { IItem } from "../../auth/AuthService";
 import Bar from "../../components/Bar";
 import Footer from "../../components/Footer";
@@ -22,6 +22,14 @@ function Home() {
                 <h1 className="title">
                     <strong> About Us  </strong>
                     <hr className="title-line" style={{ borderColor: "#a83256" }} />
+                    <Image
+                    src="/logo.png"
+                    width="32"
+                    height="32"
+                    alt="Logo"
+                    fluid
+                    style={{marginLeft: 20}}
+                    />
                 </h1>
             </div>
 

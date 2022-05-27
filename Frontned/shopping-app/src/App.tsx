@@ -15,8 +15,8 @@ import Toggle from './components/ThemeToggler';
 import { authenticationService } from './auth/AuthService';
 import { useEffect } from 'react';
 import Catalog from './pages/catalog/catalog';
+import ShoppingCart from './pages/cart/cart';
 
-// TODO: Impliment cart
 function App() {
   const [theme, themeToggler] = useTheme();
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
@@ -36,7 +36,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/cart" element={<PrivateRoute />}>
-                <Route path="/cart" element={<NotFound />} />
+                <Route path="/cart" element={<ShoppingCart />} />
               </Route>
               <Route path="/profile" element={<PrivateRoute />}>
                 <Route path="/profile" element={<Profile />} />
