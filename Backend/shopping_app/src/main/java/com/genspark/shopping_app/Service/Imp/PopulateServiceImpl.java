@@ -11,7 +11,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -26,13 +25,15 @@ public class PopulateServiceImpl implements PopulateService
     @Override
     public String populateDatabase()
     {
-        // trying to get all the txt files read and put in as items for ItemRepository
+        /*
+        scanning all the files in the folder, excluding test.txt because it is blank
+        parsing the files for the information for the items
+         */
         try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
         {
             paths.map(Path::toFile)
                     .toList().stream().filter(file -> file.getName().endsWith(".txt") && file.isFile() && !file.getName().equals("test.txt"))
-                    .peek(System.out::println)
-                    .forEachOrdered((File file) ->
+                    .forEach((File file) ->
                     {
                         try (BufferedReader reader = new BufferedReader(new FileReader(file)))
                         {
@@ -50,10 +51,11 @@ public class PopulateServiceImpl implements PopulateService
                                     String[] currentLine = line.replace(",", "").split(":");
                                     this.price = Double.parseDouble(currentLine[1]);
                                 }
+                                //TODO: get description
                             }
                         } catch (IOException e)
                         {
-                            throw new RuntimeException(e);
+                            throw new RuntimeException("Error parsing file " + e);
                         }
                         Item item = new Item();
                         item.setName(file.getName().replace(".txt", ""));
@@ -68,13 +70,4 @@ public class PopulateServiceImpl implements PopulateService
 
         return itemRepository.findAll().toString();
     }
-
-    FilenameFilter filter = new FilenameFilter()
-    {
-        @Override
-        public boolean accept(File dir, String name)
-        {
-            return name.endsWith(".txt");
-        }
-    };
 }
