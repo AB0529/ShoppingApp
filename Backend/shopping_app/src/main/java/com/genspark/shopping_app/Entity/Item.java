@@ -18,6 +18,7 @@ public class Item {
     // linking between tag table and item table
     @OneToMany(cascade= CascadeType.ALL)
     @JoinColumn(name = "item")
+    @Column(unique = true)
     private List<Tag> tags;
     @Column
     private double price;
