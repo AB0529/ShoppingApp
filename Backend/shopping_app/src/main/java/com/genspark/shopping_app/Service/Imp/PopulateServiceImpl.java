@@ -40,23 +40,29 @@ public class PopulateServiceImpl implements PopulateService
                             List<String> content = Files.readAllLines(file.toPath());
                             for (var line : content)
                             {
-                                //  get tags
+                                /*
+                                Todo: need to figure out how to add all tags in document as List<Tag>
+                                 */
                                 if (line.contains("tags"))
                                 {
                                     String[] currentLine = line.split("[:,]+");
                                 }
+
                                 // get price
                                 if (line.contains("price"))
                                 {
                                     String[] currentLine = line.replace(",", "").split(":");
                                     this.price = Double.parseDouble(currentLine[1]);
                                 }
+
                                 //TODO: get description
                             }
                         } catch (IOException e)
                         {
                             throw new RuntimeException("Error parsing file " + e);
                         }
+
+                        // create the current item that will be populated
                         Item item = new Item();
                         item.setName(file.getName().replace(".txt", ""));
                         item.setPrice(price);
