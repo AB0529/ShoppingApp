@@ -1,4 +1,4 @@
-package com.genspark.shopping_app.Entity;
+package com.genspark.shopping_app.Model;
 
 import org.springframework.http.HttpStatus;
 

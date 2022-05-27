@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { authenticationService } from "../../auth/AuthService";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { BiUserCircle, BiLock } from "react-icons/bi";
 import * as Yup from 'yup';
@@ -7,6 +6,8 @@ import * as Yup from 'yup';
 import "./register.scss";
 import { Card } from "react-bootstrap";
 import Bar from "../../components/Bar";
+import Footer from "../../components/Footer";
+import { registerUser } from "../../auth/api/registerUser";
 
 function Register() {
 	const navigate = useNavigate();
@@ -33,12 +34,12 @@ return (
 								setSubmitting(true);
 								setStatus();
 
-								authenticationService.register(username, password)
+								registerUser(username, password)
 									.then(() => {
 										navigate("/");
 									}).catch((e: any) => {
 										setSubmitting(false);
-										setStatus("Something went wrong: " + e.message);
+										setStatus("Something went wrong: " + e);
 									});
 							}}
 							render={({ errors, status, touched, isSubmitting }) => (
@@ -71,6 +72,7 @@ return (
 					</Card.Body>
 				</Card>
 			</div>
+			<Footer />
 		</>
 	)
 }

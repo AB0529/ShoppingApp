@@ -1,12 +1,11 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { authenticationService } from './AuthService';
-
+import { useStickyState } from '../state/stickyState';
 
 export const PrivateRoute = () => {
-    const currentUser = authenticationService.currentUserValue;
+    const [user, setUser] = useStickyState(null, 'user');
 
     // Not authorized
-    if (!currentUser) {
+    if (!user) {
         console.log("Not auth");
         return <Navigate to="/login" />
     }

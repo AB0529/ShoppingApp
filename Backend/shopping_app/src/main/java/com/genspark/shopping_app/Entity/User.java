@@ -1,6 +1,7 @@
 package com.genspark.shopping_app.Entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -11,9 +12,8 @@ public class User {
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userID;
-    @Column
+
     private String name;
-    @Column
     private String address;
     @Column(unique = true)
     private String userName;
@@ -22,13 +22,16 @@ public class User {
     //private String email;
 
     // linking between cart table and user table
-    @OneToOne(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
-    private Cart cart;
-    // linking between card table and user table
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
-    private Set<Card> card;
+//    @OneToMany(fetch = FetchType.EAGER,mappedBy="cart",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST,CascadeType.REMOVE})
+    @JoinColumn(name = "item")
+    private List<Item> cart;
 
-    public User(int userID, String name, String address, String userName, String passWord,Cart cart,Set<Card> card) {
+    // linking between card table and user table
+    @OneToOne(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
+    private Card card;
+
+    public User(int userID, String name, String address, String userName, String passWord, List<Item> cart, Card card) {
 
         this.userID = userID;
         this.name = name;
@@ -50,11 +53,11 @@ public class User {
         this.userID = userID;
     }
 
-    public Cart getCart() {
+    public List<Item> getCart() {
         return cart;
     }
 
-    public void setCart(Cart cart) {
+    public void setCart(List<Item> cart) {
         this.cart = cart;
     }
 
@@ -90,11 +93,11 @@ public class User {
         this.passWord = passWord;
     }
 
-    public Set<Card> getCard() {
+    public Card getCard() {
         return card;
     }
 
-    public void setCard(Set<Card> card) {
+    public void setCard(Card card) {
         this.card = card;
     }
 

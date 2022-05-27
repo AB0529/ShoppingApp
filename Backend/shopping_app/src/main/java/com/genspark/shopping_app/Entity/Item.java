@@ -11,13 +11,11 @@ public class Item {
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int itemID;
-    // linking between cart table and item table
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "cartID")
-    private Cart cart;
+
     // linking between tag table and item table
     @OneToMany(cascade= CascadeType.ALL)
     @JoinColumn(name = "item")
+    @Column(unique = true)
     private List<Tag> tags;
     @Column
     private double price;
@@ -28,13 +26,12 @@ public class Item {
     @Column
     private String description;
 
-    public Item(int itemID, int price, Cart cart , String name, String image, String description, List<Tag> tags) {
+    public Item(int itemID, int price, String name, String image, String description, List<Tag> tags) {
         this.itemID = itemID;
         this.name = name;
         this.price = price;
         this.image = image;
         this.description = description;
-        this.cart = cart;
         this.tags = tags;
     }
 
@@ -46,14 +43,6 @@ public class Item {
 
     public void setItemID(int itemID) {
         this.itemID = itemID;
-    }
-
-    public Cart getCartID() {
-        return cart;
-    }
-
-    public void setCartID(Cart cart) {
-        this.cart = cart;
     }
 
     public String getName() {
@@ -100,7 +89,6 @@ public class Item {
     public String toString() {
         return "Item{" +
                 "itemID=" + itemID +
-                ", cartID=" + cart +
                 ", tags=" + tags +
                 ", price=" + price +
                 ", name='" + name + '\'' +
