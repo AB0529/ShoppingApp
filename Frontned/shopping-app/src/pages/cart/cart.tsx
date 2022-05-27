@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { Col, Container, Row, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
+import { AiFillDelete } from "react-icons/ai"
 import { IUser } from "../../auth/Typings";
+import { removeFromCart } from "../../auth/UserService";
 import Bar from "../../components/Bar";
 import Footer from "../../components/Footer";
 import { useStickyState } from "../../state/stickyState";
@@ -9,12 +10,13 @@ import "./cart.scss";
 
 function ShoppingCart() {
 	const [user, setUser] = useStickyState(null, 'user');
+	let total = 0;
 
 	const orderTable = (
 		<Table striped bordered hover>
 			<thead>
 				<tr>
-					<th></th>
+					<th />
 					<th>Name</th>
 					<th>Description</th>
 					<th>Price</th>
@@ -22,13 +24,45 @@ function ShoppingCart() {
 			</thead>
 			<tbody>
 				{user && (user as IUser).cart.map(item => {
-						return (
-							<tr>
-								<td>{item.name}</td>
-							</tr>
-						)
-					})
+					total += item.price;
+
+					return (
+						<tr>
+							<td valign="middle" align="center" width={50}>
+								<Button variant="danger" size="sm" onClick={() => {
+									removeFromCart(item);
+								}}>
+									<AiFillDelete size={25} />
+								</Button>
+							</td>
+							<td valign="middle" align="center" width={100}>
+								<img
+									className="item-img"
+									src={item.image}
+									width="64"
+									height="64"
+									alt="item-img"
+								/>
+								<h5>{item.name}</h5>
+							</td>
+							<td>
+								<h5>{item.description}</h5>
+							</td>
+							<td width={100}>
+								<h5>${item.price}</h5>
+							</td>
+						</tr>
+					)
+				})
 				}
+				<tr>
+					<td />
+					<td />
+					<td />
+					<td>Total: ${total}</td>
+
+				</tr>
+				<Button variant="success">Checkout</Button>
 			</tbody>
 		</Table>
 	)
@@ -38,17 +72,16 @@ function ShoppingCart() {
 			<Bar />
 			<div className="d-flex align-items-center justify-content-center">
 				<h1 className="title">
-					<strong> Shopping Cart  </strong>
+					<strong> Your Order  </strong>
 					<hr className="title-line" style={{ borderColor: "#c4ad37" }} />
 				</h1>
 			</div>
-			<h5 className="order-text">Your Order:</h5>
 			<Container fluid>
 				{user && (user as IUser).cart.length > 0 ? (
 					(
-						<div>
+						<Container fluid>
 							{orderTable}
-						</div>
+						</Container>
 					)) : (
 					<h1>No order</h1>
 				)

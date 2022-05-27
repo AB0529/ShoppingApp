@@ -11,7 +11,7 @@ export function handleResponse(response: any) {
                 window.location.reload();
             }
 
-            const error = response.status;
+            const error = response.message;
             return Promise.reject(error);
         }
 

@@ -1,6 +1,6 @@
 import { authenticateUser } from "./api/authenticateUser";
 import { getUserByID } from "./api/getUserByID";
-import { updateCart } from "./api/updateUser";
+import { updateCart, updateUser } from "./api/updateUser";
 import { IItem, IUser } from "./Typings";
 
 const user: IUser = JSON.parse(window.localStorage.getItem('user') as string);
@@ -13,11 +13,24 @@ export function addToCart(item: IItem) {
 	if (!user)
 		return;
 	
-	(user as IUser).cart.push(item);
-	updateCart((user as IUser).cart, (user as IUser).userID).then(u => {
-		setUser(u as any);
+	user.cart.push(item);
+	updateCart(user.cart, user.userID).then(u => {
+		setUser(u);
 	}).catch(e => {
 		console.error(`AddToCart: ${e}`);
+	})
+}
+
+export function removeFromCart(item: IItem) {
+	if (!user)
+		return;
+	
+	user.cart.splice(user.cart.indexOf(item));
+	updateCart(user.cart, user.userID).then(u => {
+		setUser(u);
+		window.location.reload();
+	}).catch(e => {
+		console.error(`RemoveFromCart: ${e}`);
 	})
 }
 
@@ -26,7 +39,7 @@ export function refreshUser() {
 		return;
 	
 	// Checks the API to see if user details are still valid
-	getUserByID((user as IUser).userID).catch(e => {
+	getUserByID(user.userID).catch(e => {
 		console.error(`RefreshUser: ${e}`);
 		logout();
 	});
@@ -45,6 +58,9 @@ export function logout() {
 	if (!user)
 		return;
 	
+	// Update user in database
+	updateUser(user);
+
 	setUser(null);
 	window.location.reload();
 }

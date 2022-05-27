@@ -4,18 +4,17 @@ import { GiShoppingCart } from "react-icons/gi"
 import { IUser } from "../auth/Typings";
 import { useStickyState } from "../state/stickyState";
 
+interface IProps {
+	cartCount: number
+}
+
 function Cart() {
-	const [user, setUser] = useStickyState(null, 'user');
-	const [CartCount, SetCartCount] = useState(0);
-
-	useEffect(() => {
-		SetCartCount(user ? (user as IUser).cart.length : 0);
-	}, [])
-
+	const [user] = useStickyState(null, 'user');
+	const [cartCount] = useState(user ? user.cart.length : 0);
 
 	return (
-		<Button variant="secondary">
-			<span style={{ color: "#cc3939" }}> <strong> {CartCount !== 0 && CartCount} </strong> </span>
+		<Button variant="secondary" href="/cart">
+			<span style={{ color: "#cc3939" }}> <strong> {cartCount !== 0 && cartCount} </strong> </span>
 			<strong> <GiShoppingCart style={{ fontSize: 20 }} />  </strong>
 		</Button>
 	);

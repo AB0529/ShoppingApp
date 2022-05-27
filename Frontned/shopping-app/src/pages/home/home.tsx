@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row, Image } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { getItemByID } from "../../auth/api/getItemByID";
 import { IItem } from "../../auth/Typings";
 import { addToCart } from "../../auth/UserService";
@@ -10,7 +11,8 @@ import { useStickyState } from "../../state/stickyState";
 
 function Home() {
     const [items, setItems] = useState<Array<IItem>>([]);
-    const [user, setUser] = useStickyState(null, 'user');
+    const [user] = useStickyState(null, 'user');
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`${config.apiURL}/items/all/3`).then(resp => resp.json()).then((data) => {
@@ -77,8 +79,10 @@ function Home() {
 
                                     </Card.Footer>
                                     <Button variant="secondary" onClick={ async () => {
-                                        const item: IItem = await getItemByID(1);
-                                        console.log(item);
+                                        if (!user)
+                                            navigate('/login');
+                                            
+                                        const item: IItem = await getItemByID(2);
                                         addToCart(item);
                                     } } >Add to Cart</Button>
                                 </Card>

@@ -14,11 +14,6 @@ function UserIcon(props: IUserIcon) {
     const navigate = useNavigate();
     const [user] = useStickyState(null, 'user');
 
-    // Refresh login
-    useEffect(() => {
-        refreshUser();
-    }, [])
-
     if (user && props.navItem)
         return (
             <Nav.Link>
