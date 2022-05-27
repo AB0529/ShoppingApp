@@ -22,14 +22,14 @@ function Home() {
                 <h1 className="title">
                     <strong> About Us  </strong>
                     <hr className="title-line" style={{ borderColor: "#a83256" }} />
-                    <Image
+                    {/* <Image
                     src="/logo.png"
                     width="32"
                     height="32"
                     alt="Logo"
                     fluid
                     style={{marginLeft: 20}}
-                    />
+                    /> */}
                 </h1>
             </div>
 

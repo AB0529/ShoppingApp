@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import Catalog from './pages/catalog/catalog';
 import ShoppingCart from './pages/cart/cart';
 
+// TOOD: Use global state for user storage
 function App() {
   const [theme, themeToggler] = useTheme();
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
