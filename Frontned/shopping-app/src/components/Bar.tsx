@@ -1,12 +1,19 @@
-import { FormEventHandler } from "react";
+import { FormEventHandler, useEffect } from "react";
 import { Navbar, Container, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { refreshUser } from "../auth/UserService";
+import { useStickyState } from "../state/stickyState";
 
 import Cart from "./Cart";
 import UserIcon from "./UserIcon";
 
 function Bar() {
+    // Refresh login
+    useEffect(() => {
+        refreshUser();
+    }, [])
+
     const navigate = useNavigate();
     const barBrand = (
         <img
@@ -35,7 +42,7 @@ function Bar() {
 
     const searchBar = (
         <Nav.Item>
-            <Form className="d-flex" style={{width: 250}} onSubmit={(event: any) => {
+            <Form className="d-flex" style={{ width: 250 }} onSubmit={(event: any) => {
                 // event.preventDefault();
                 navigate(`/catalog?query=${event.target[0].value}`)
             }}>
@@ -63,7 +70,7 @@ function Bar() {
                         </Nav>
                         <Nav id="bar" navbarScroll>
                             {searchBar}
-                            <Nav.Item style={{paddingLeft: 5}}>
+                            <Nav.Item style={{ paddingLeft: 5 }}>
                                 <Cart />
                             </Nav.Item>
                         </Nav>

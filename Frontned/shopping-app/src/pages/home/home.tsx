@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row, Image } from "react-bootstrap";
-import { IItem } from "../../auth/AuthService";
+import { useNavigate } from "react-router-dom";
+import { getItemByID } from "../../auth/api/getItemByID";
+import { IItem } from "../../auth/Typings";
+import { addToCart } from "../../auth/UserService";
 import Bar from "../../components/Bar";
 import Footer from "../../components/Footer";
 import config from "../../config/config";
+import { useStickyState } from "../../state/stickyState";
 
 function Home() {
     const [items, setItems] = useState<Array<IItem>>([]);
+    const [user] = useStickyState(null, 'user');
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`${config.apiURL}/items/all/3`).then(resp => resp.json()).then((data) => {
@@ -22,14 +28,14 @@ function Home() {
                 <h1 className="title">
                     <strong> About Us  </strong>
                     <hr className="title-line" style={{ borderColor: "#a83256" }} />
-                    <Image
+                    {/* <Image
                     src="/logo.png"
                     width="32"
                     height="32"
                     alt="Logo"
                     fluid
                     style={{marginLeft: 20}}
-                    />
+                    /> */}
                 </h1>
             </div>
 
@@ -72,7 +78,13 @@ function Home() {
                                         </ul>
 
                                     </Card.Footer>
-                                    <Button variant="secondary">Add to Cart</Button>
+                                    <Button variant="secondary" onClick={ async () => {
+                                        if (!user)
+                                            navigate('/login');
+                                            
+                                        const item: IItem = await getItemByID(2);
+                                        addToCart(item);
+                                    } } >Add to Cart</Button>
                                 </Card>
                             </Col>
                         )

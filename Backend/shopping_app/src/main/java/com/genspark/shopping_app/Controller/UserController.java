@@ -3,6 +3,7 @@ package com.genspark.shopping_app.Controller;
 
 import com.genspark.shopping_app.Config.JasyptConfig;
 import com.genspark.shopping_app.Entity.Card;
+import com.genspark.shopping_app.Entity.Item;
 import com.genspark.shopping_app.Model.ApiResponse;
 import com.genspark.shopping_app.Entity.User;
 import com.genspark.shopping_app.Model.RegisterRequest;
@@ -13,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -60,6 +63,12 @@ public class UserController
             String hashedPW = jasyptConfig.encryptor().encrypt(registerRequest.getPassword());
             System.out.println(hashedPW);
             User user = new User();
+            List<Item> cart = new ArrayList<>();
+            Set<Card> cards = new HashSet<>();
+
+            user.setCart(cart);
+            user.setCard(cards);
+
             user.setUserName(registerRequest.getUsername());
             user.setPassWord(hashedPW);
 
@@ -73,11 +82,12 @@ public class UserController
 
     @PostMapping("/update")
     public ResponseEntity update(@RequestBody UserUpdateRequest user) {
-        System.out.println(user);
         if (user == null)
             return new ResponseEntity(new ApiResponse("Insufficient details", null), HttpStatus.BAD_REQUEST);
-        else if (user.getUsername().isEmpty())
-            return new ResponseEntity(new ApiResponse("Username cannot be empty", null), HttpStatus.BAD_REQUEST);
+        else if (user.getUserID() == 0)
+            return new ResponseEntity(new ApiResponse("ID cannot be empty", null), HttpStatus.BAD_REQUEST);
+
+        System.out.println(user.getCart());
 
         try {
             User u = userServiceImp.getUserByID(user.getUserID());
@@ -95,11 +105,14 @@ public class UserController
                 cardSet.add(user.getCard());
                 u.setCard(cardSet);
             }
+            else if (user.getCart() != null)
+                u.setCart(user.getCart());
 
             userServiceImp.updateUser(u);
 
-            return new ResponseEntity(new ApiResponse("User updated", user), HttpStatus.OK);
+            return new ResponseEntity(new ApiResponse("User updated", u), HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e);
             return new ResponseEntity(new ApiResponse("Something went wrong!", null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
