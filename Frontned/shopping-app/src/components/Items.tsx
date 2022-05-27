@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, FormControl, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
-import { IItem, ITag } from "../auth/AuthService";
+import { IItem, ITag } from "../auth/Typings";
 import config from "../config/config";
 
 function Items() {

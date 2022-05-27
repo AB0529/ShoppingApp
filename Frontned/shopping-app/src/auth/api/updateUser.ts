@@ -1,0 +1,47 @@
+import config from "../../config/config";
+import { IItem, IUser } from "../Typings";
+import { handleResponse } from "./handleResponse";
+
+export function updateCart(cart: Array<IItem>, userID: number) {
+	return new Promise<IUser>(async (resolve, reject) => {
+		if (!cart || !userID)
+			return reject('No cart or userID provided');
+
+		const resp = await fetch(`${config.apiURL}/users/update`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ cart, userID })
+		});
+		const user: IUser = await handleResponse(resp).catch((e: any) => {
+			return reject(e)
+		});
+
+		// Make sure correct user is returned
+		if (user.userID != userID)
+			return reject('Incorrect user recived');
+
+		return resolve(user);
+	});
+}
+
+export function updateUsername(username: String, userID: number) {
+	return new Promise<IUser>(async (resolve, reject) => {
+		if (!username || !userID)
+			return reject('No username or userID provided');
+
+		const resp = await fetch(`${config.apiURL}/users/update`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ username, userID })
+		});
+		const user: IUser = await handleResponse(resp).catch((e: any) => {
+			return reject(e)
+		});
+
+		// Make sure correct user is returned
+		if (user.userID != userID)
+			return reject('Incorrect user recived');
+
+		return resolve(user);
+	});
+}

@@ -1,4 +1,4 @@
-import { authenticationService } from "./AuthService";
+import { logout } from "../UserService";
 
 export function handleResponse(response: any) {
     return response.text().then((text: string) => {
@@ -7,7 +7,7 @@ export function handleResponse(response: any) {
         if (!response.ok) {
             if ([401, 403].indexOf(response.status) !== -1) {
                 // Auto logout if 401 unauthorized or 403 response
-                authenticationService.logout();
+                logout();
                 window.location.reload();
             }
 

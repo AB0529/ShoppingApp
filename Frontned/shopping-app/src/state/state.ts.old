@@ -1,0 +1,12 @@
+// import { createGlobalState } from "react-hooks-global-state";
+// import { IUser } from "../auth/Typings";
+
+// const u: IUser|null = null;
+// const state = {
+// 	theme: 'dark',
+// 	user: null
+// }
+
+// const { setGlobalState, useStickyState } = createGlobalState(state);
+
+// export { setGlobalState, useStickyState };

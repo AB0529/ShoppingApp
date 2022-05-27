@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { authenticationService } from "../../auth/AuthService";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { BiUserCircle, BiLock } from "react-icons/bi";
 import * as Yup from 'yup';
@@ -8,6 +7,8 @@ import "./login.scss";
 import { Card } from "react-bootstrap";
 import Bar from "../../components/Bar";
 import Footer from "../../components/Footer";
+import { authenticateUser } from "../../auth/api/authenticateUser";
+import { login } from "../../auth/UserService";
 
 function Login() {
 	const navigate = useNavigate();
@@ -30,7 +31,7 @@ function Login() {
 							})}
 							onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
 								setStatus();
-								authenticationService.login(username, password)
+								login(username, password)
 									.then(() => {
 										navigate("/");
 									}).catch(() => {

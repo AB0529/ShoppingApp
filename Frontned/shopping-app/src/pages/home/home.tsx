@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row, Image } from "react-bootstrap";
-import { IItem } from "../../auth/AuthService";
+import { getItemByID } from "../../auth/api/getItemByID";
+import { IItem } from "../../auth/Typings";
+import { addToCart } from "../../auth/UserService";
 import Bar from "../../components/Bar";
 import Footer from "../../components/Footer";
 import config from "../../config/config";
+import { useStickyState } from "../../state/stickyState";
 
 function Home() {
     const [items, setItems] = useState<Array<IItem>>([]);
+    const [user, setUser] = useStickyState(null, 'user');
 
     useEffect(() => {
         fetch(`${config.apiURL}/items/all/3`).then(resp => resp.json()).then((data) => {
@@ -72,7 +76,11 @@ function Home() {
                                         </ul>
 
                                     </Card.Footer>
-                                    <Button variant="secondary">Add to Cart</Button>
+                                    <Button variant="secondary" onClick={ async () => {
+                                        const item: IItem = await getItemByID(1);
+                                        console.log(item);
+                                        addToCart(item);
+                                    } } >Add to Cart</Button>
                                 </Card>
                             </Col>
                         )
