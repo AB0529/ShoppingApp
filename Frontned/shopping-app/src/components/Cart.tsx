@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { GiShoppingCart } from "react-icons/gi"
-import { IUser } from "../auth/Typings";
 import { useStickyState } from "../state/stickyState";
 
-interface IProps {
-	cartCount: number
-}
 
 function Cart() {
 	const [user] = useStickyState(null, 'user');

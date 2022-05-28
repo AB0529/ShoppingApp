@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Card, Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { IItem } from "../auth/Typings";
 import Bar from "../components/Bar";
 import { Carasoul } from "../components/carasoul";
 import Footer from "../components/Footer";
 import config from "../config/config";
-import { useStickyState } from "../state/stickyState";
 
 function Home() {
     const [items, setItems] = useState<Array<IItem>>([]);
