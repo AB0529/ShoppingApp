@@ -57,7 +57,7 @@ function Home() {
                     <hr className="title-line" style={{ borderColor: "#7e3299" }} />
                 </h1>
             </div>
-            <Container fluid>
+            {/* <Container fluid>
                 <Row md="auto" className="d-flex align-items-center justify-content-center">
                     {items.map((item) => {
                         return (
@@ -90,7 +90,7 @@ function Home() {
                         )
                     })}
                 </Row>
-            </Container>
+            </Container> */}
             <Footer />
         </>
     )

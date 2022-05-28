@@ -14,7 +14,7 @@ export function addToCart(item: IItem) {
 		return;
 	
 	user.cart.push(item);
-	updateCart(user.cart, user.userID).then(u => {
+	return updateCart(user.cart, user.userID).then(u => {
 		setUser(u);
 	}).catch(e => {
 		console.error(`AddToCart: ${e}`);

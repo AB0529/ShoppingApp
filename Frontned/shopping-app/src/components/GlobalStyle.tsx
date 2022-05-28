@@ -13,6 +13,13 @@ export const GlobalStyles = createGlobalStyle<any>`
     background: ${({theme}) => theme.cardBody};
     color: ${({ theme }) => theme.text};
   }
+  .modal-dialog .modal-body {
+    background: ${({theme}) => theme.cardBody};
+    color: ${({ theme }) => theme.text};
+  }
+  .modal-header {
+    background: ${({ theme }) => theme.cardHeader};
+  }
   .tag {
     background: ${({theme}) => theme.tagBG};
   }
@@ -22,5 +29,9 @@ export const GlobalStyles = createGlobalStyle<any>`
   }
   .tag::before {
     background: ${({theme}) => theme.tagBG};
+  }
+  .table {
+    background: ${({theme}) => theme.tableBody};
+    color: ${({ theme }) => theme.text};
   }
   `

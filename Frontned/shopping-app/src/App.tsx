@@ -14,6 +14,7 @@ import { useTheme } from './components/UseTheme';
 import Toggle from './components/ThemeToggler';
 import Catalog from './pages/catalog/catalog';
 import ShoppingCart from './pages/cart/cart';
+import Checkout from './pages/checkout/checkout';
 
 function App() {
   const [theme, themeToggler] = useTheme();
@@ -36,6 +37,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/catalog" element={<Catalog />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

@@ -1,29 +1,42 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, FormControl, Row } from "react-bootstrap";
-import { useSearchParams } from "react-router-dom";
+import { Button, Card, Col, Container, Form, FormControl, Modal, Row } from "react-bootstrap";
+import { GiShoppingCart } from "react-icons/gi";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { getItemByID } from "../auth/api/getItemByID";
 import { IItem, ITag } from "../auth/Typings";
+import { addToCart } from "../auth/UserService";
 import config from "../config/config";
+import { useStickyState } from "../state/stickyState";
 
 function Items() {
 	const [items, setItems] = useState<Array<IItem>>([]);
 	const [filteredItems, setFilteredItems] = useState<Array<IItem>>([]);
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
+	const [show, setShow] = useState(false);
+	const [user] = useStickyState(null, 'user');
+	const navigate = useNavigate();
 
-	const handleSearch = (event: any, v: string|null) => {
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
+
+	const handleSearch = (event: any, v: string | null) => {
 		let value = v ? v : event.target.value.toLowerCase();
 		let result = [];
-		
+
 		result = items.filter((item: IItem) => {
 			let query = item.tags.map((tag: ITag) => tag.tag).join('!').toLowerCase();
-			query += item.name.toLowerCase();
-			query += item.description.toLowerCase();
-			
+
+			if (item.name)
+				query += item.name.toLowerCase();
+			else if (item.description)
+				query += item.description.toLowerCase();
+
 			return query.includes(value.toLowerCase());
 		});
-		
+
 		setFilteredItems(result);
 	}
-	
+
 
 	useEffect(() => {
 		fetch(`${config.apiURL}/items/all`).then(resp => resp.json()).then((data) => {
@@ -44,15 +57,15 @@ function Items() {
 					<strong> Explore our Items </strong>
 					<hr className="title-line" style={{ borderColor: "#42f554" }} />
 					<Form>
-					<FormControl
-						id="searchBar"
-						type="text"
-						placeholder="Search"
-						className="me-2"
-						aria-label="Search"
-						onChange={(event) => handleSearch(event, null)}
-					/>
-				</Form>
+						<FormControl
+							id="searchBar"
+							type="text"
+							placeholder="Search"
+							className="me-2"
+							aria-label="Search"
+							onChange={(event) => handleSearch(event, null)}
+						/>
+					</Form>
 				</h1>
 			</div>
 
@@ -77,7 +90,15 @@ function Items() {
 										</ul>
 
 									</Card.Footer>
-									<Button variant="secondary">Add to Cart</Button>
+									<Button variant="secondary" onClick={async () => {
+										if (!user)
+											navigate('/login');
+
+										const i: IItem = await getItemByID(item.itemID);
+										addToCart(i)?.then(() => {
+											handleShow();
+										});
+									}}>Add to Cart</Button>
 								</Card>
 							</Col>
 						)
@@ -86,6 +107,15 @@ function Items() {
 					)}
 				</Row>
 			</Container>
+			<Modal show={show} onHide={handleClose}>
+				<Modal.Header closeButton>
+					<Modal.Title></Modal.Title>
+				</Modal.Header>
+				<Modal.Body className="text-center" >
+					<h5>Item added to cart</h5>
+					<Button variant="secondary" href="/cart"><GiShoppingCart size={30} /></Button>
+				</Modal.Body>
+			</Modal>
 		</Container >
 	)
 }

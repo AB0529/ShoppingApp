@@ -14,6 +14,7 @@ export const darkTheme = {
     toggleBorder: '#6B8096',
     background: '#999',
     cardBody: '#454447',
-    // cardHeader: "#4f4e52",
-    tagBG: "#4f4e52"
+    cardHeader: "#5b5a5e",
+    tagBG: "#4f4e52",
+    tableBody: "#454447",
 }

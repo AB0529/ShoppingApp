@@ -15,7 +15,7 @@ function Cart() {
 	return (
 		<Button variant="secondary" href="/cart">
 			<span style={{ color: "#cc3939" }}> <strong> {cartCount !== 0 && cartCount} </strong> </span>
-			<strong> <GiShoppingCart style={{ fontSize: 20 }} />  </strong>
+			<strong> <GiShoppingCart size={20} />  </strong>
 		</Button>
 	);
 }

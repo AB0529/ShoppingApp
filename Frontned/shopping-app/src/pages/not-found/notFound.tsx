@@ -19,10 +19,10 @@ function NotFound() {
         <>
             <Bar />
             <Container fluid>
-            <div className="not-found-wrapper">
+                <div className="not-found-wrapper">
                     <span className="h1 text-wrap-center"> Uh oh.. <strong>page not found</strong>! </span>
                     <Button variant="danger" onClick={() => navigate(-1)} >Take me back!</Button>
-                        {img}
+                    {img}
                 </div>
             </Container>
         </>
