@@ -7,6 +7,7 @@ export const lightTheme = {
     tagBG: "#eee",
     cardBody: '#F2F3F5',
     // cardHeader: "#f7f7f7",
+    indicatorsBtn: '#363537'
 }
 export const darkTheme = {
     body: '#363537',
@@ -17,4 +18,5 @@ export const darkTheme = {
     cardHeader: "#5b5a5e",
     tagBG: "#4f4e52",
     tableBody: "#454447",
+    indicatorsBtn: '#363537'
 }

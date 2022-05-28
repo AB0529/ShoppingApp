@@ -16,11 +16,13 @@ import Catalog from './pages/catalog/catalog';
 import ShoppingCart from './pages/cart/cart';
 import Checkout from './pages/checkout/checkout';
 
+
 function App() {
   const [theme, themeToggler] = useTheme();
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
 
   return (
+    
     <ThemeProvider theme={themeMode}>
       <>
         <GlobalStyles />
