@@ -1,6 +1,5 @@
 import { Button } from 'react-bootstrap';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
-import '../theme/theme-btn.scss'
 
 interface IToggleProps {
 	theme: any
@@ -9,7 +8,7 @@ interface IToggleProps {
 
 const Toggle = (props: IToggleProps) => {
 	return (
-		<Button className="fab-item" style={{fontSize: 24}} variant={props.theme == "light" ? "dark" : "light"} onClick={() => { props.toggleTheme() }} >
+		<Button className="fab-item" style={{fontSize: 24}} variant={props.theme === "light" ? "dark" : "light"} onClick={() => { props.toggleTheme() }} >
 			{props.theme === 'light' ? <MdDarkMode /> : <MdLightMode />}
 		</Button>
 	);

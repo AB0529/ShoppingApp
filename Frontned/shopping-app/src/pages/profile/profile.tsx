@@ -5,7 +5,6 @@ import Bar from "../../components/Bar";
 import { useStickyState } from "../../state/stickyState";
 import { UsernameCardForm } from "./usernameForm";
 
-import './profile.scss';
 import { NameCardForm } from "./nameForm";
 import { AddressCardForm } from "./addressForm";
 import { CreditCardForm } from "./creditCardForm";

@@ -1,7 +1,6 @@
 import { Button, Container, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom"
-import Bar from "../../components/Bar";
-import "./notFound.scss"
+import Bar from "../components/Bar";
 
 function NotFound() {
     const navigate = useNavigate();
@@ -19,10 +18,10 @@ function NotFound() {
         <>
             <Bar />
             <Container fluid>
-            <div className="not-found-wrapper">
+                <div className="not-found-wrapper">
                     <span className="h1 text-wrap-center"> Uh oh.. <strong>page not found</strong>! </span>
                     <Button variant="danger" onClick={() => navigate(-1)} >Take me back!</Button>
-                        {img}
+                    {img}
                 </div>
             </Container>
         </>

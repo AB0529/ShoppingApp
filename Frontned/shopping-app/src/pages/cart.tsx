@@ -1,15 +1,16 @@
-import { Button, Container, Table } from "react-bootstrap";
+import { Button, Card, Container, Table } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai"
-import { IUser } from "../../auth/Typings";
-import { removeFromCart } from "../../auth/UserService";
-import Bar from "../../components/Bar";
-import Footer from "../../components/Footer";
-import { useStickyState } from "../../state/stickyState";
-
-import "./cart.scss";
+import { useNavigate } from "react-router-dom";
+import { updateCart } from "../auth/api/updateUser";
+import { IItem, IUser } from "../auth/Typings";
+import { removeFromCart, setUser } from "../auth/UserService";
+import Bar from "../components/Bar";
+import Footer from "../components/Footer";
+import { useStickyState } from "../state/stickyState";
 
 function ShoppingCart() {
-	const [user, setUser] = useStickyState(null, 'user');
+	const navigate = useNavigate();
+	const [user] = useStickyState(null, 'user');
 	let total = 0;
 
 	const orderTable = (
@@ -23,7 +24,7 @@ function ShoppingCart() {
 				</tr>
 			</thead>
 			<tbody>
-				{user && (user as IUser).cart.map(item => {
+				{user && user.cart.map((item: IItem) => {
 					total += item.price;
 
 					return (
@@ -62,7 +63,13 @@ function ShoppingCart() {
 					<td>Total: ${total}</td>
 
 				</tr>
-				<Button variant="success">Checkout</Button>
+				<Button variant="success" onClick={() => {
+					// Clears user cart
+					updateCart([], user.userID).then((user) => {
+						setUser(user);
+						navigate('/checkout');
+					}).catch(e => console.error(`Checkout: ${e}`));
+				}}>Checkout</Button>
 			</tbody>
 		</Table>
 	)
@@ -83,7 +90,16 @@ function ShoppingCart() {
 							{orderTable}
 						</Container>
 					)) : (
-					<h1>No order</h1>
+					<Container fluid className="d-flex align-items-center justify-content-center">
+						<Card style={{width: '18rem'}}>
+							<Card.Body>
+								<Card.Text className="d-flex align-items-center justify-content-center">
+									<h5>It's empty...</h5>
+								</Card.Text>
+								<Button className="d-flex align-items-center justify-content-center" variant="success" href="/catalog">Browse Wares</Button>
+							</Card.Body>
+						</Card>
+					</Container>
 				)
 				}
 			</Container>
