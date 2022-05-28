@@ -1,14 +1,12 @@
 import { Button, Card, Container, Table } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
-import { updateCart } from "../../auth/api/updateUser";
-import { IItem, IUser } from "../../auth/Typings";
-import { removeFromCart, setUser } from "../../auth/UserService";
-import Bar from "../../components/Bar";
-import Footer from "../../components/Footer";
-import { useStickyState } from "../../state/stickyState";
-
-import "./cart.scss";
+import { updateCart } from "../auth/api/updateUser";
+import { IItem, IUser } from "../auth/Typings";
+import { removeFromCart, setUser } from "../auth/UserService";
+import Bar from "../components/Bar";
+import Footer from "../components/Footer";
+import { useStickyState } from "../state/stickyState";
 
 function ShoppingCart() {
 	const navigate = useNavigate();

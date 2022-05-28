@@ -1,20 +1,22 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.scss';
 
-import Home from './pages/home/home';
-import NotFound from './pages/not-found/notFound';
-import Login from './pages/login/login';
-import Register from './pages/register/register';
-import Profile from './pages/profile/profile';
 import { PrivateRoute } from './auth/PrivateRoute';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from './theme/theme';
 import { GlobalStyles } from './components/GlobalStyle';
 import { useTheme } from './components/UseTheme';
+
+import Home from './pages/home';
+import NotFound from './pages/notFound';
+import Login from './pages/login';
+import Register from './pages/register';
+import Profile from './pages/profile/profile';
 import Toggle from './components/ThemeToggler';
-import Catalog from './pages/catalog/catalog';
-import ShoppingCart from './pages/cart/cart';
-import Checkout from './pages/checkout/checkout';
+import Catalog from './pages/catalog';
+import ShoppingCart from './pages/cart';
+import Checkout from './pages/checkout';
 
 
 function App() {

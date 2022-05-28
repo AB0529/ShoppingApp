@@ -3,12 +3,10 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { BiUserCircle, BiLock } from "react-icons/bi";
 import * as Yup from 'yup';
 
-import "./login.scss";
 import { Card } from "react-bootstrap";
-import Bar from "../../components/Bar";
-import Footer from "../../components/Footer";
-import { authenticateUser } from "../../auth/api/authenticateUser";
-import { login } from "../../auth/UserService";
+import Bar from "../components/Bar";
+import Footer from "../components/Footer";
+import { login } from "../auth/UserService";
 
 function Login() {
 	const navigate = useNavigate();

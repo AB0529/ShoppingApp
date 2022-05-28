@@ -1,6 +1,5 @@
 import { Button } from 'react-bootstrap';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
-import '../theme/theme-btn.scss'
 
 interface IToggleProps {
 	theme: any

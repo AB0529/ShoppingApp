@@ -1,7 +1,6 @@
 import { Button, Container, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom"
-import Bar from "../../components/Bar";
-import "./notFound.scss"
+import Bar from "../components/Bar";
 
 function NotFound() {
     const navigate = useNavigate();

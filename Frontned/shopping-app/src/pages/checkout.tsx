@@ -1,11 +1,7 @@
-import { useEffect } from "react";
 import { Button, Container, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom"
-import { updateCart } from "../../auth/api/updateUser";
-import { setUser } from "../../auth/UserService";
-import Bar from "../../components/Bar";
-import { useStickyState } from "../../state/stickyState";
-import "./checkout.scss"
+
+import Bar from "../components/Bar";
 
 function Checkout() {
     const navigate = useNavigate();
