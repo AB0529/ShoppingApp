@@ -1,7 +1,0 @@
-tags:Purse,wallet
-
-price:1,890
-
-description:For when you have so much money 
-that you can't think of anyother way to show it off.
-(this purse was real $2000)

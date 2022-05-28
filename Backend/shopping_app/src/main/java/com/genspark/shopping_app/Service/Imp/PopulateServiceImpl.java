@@ -7,20 +7,22 @@ import com.genspark.shopping_app.Repository.Services.PopulateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Stream;
 
 @Service
 public class PopulateServiceImpl implements PopulateService
 {
     @Autowired
-    public ItemRepository itemRepository;
-    private List<Tag> tags;
-    private double price;
+    public ItemServiceImp itemServiceImp;
 
     @Override
     public String populateDatabase()
@@ -32,48 +34,42 @@ public class PopulateServiceImpl implements PopulateService
         try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
         {
             paths.map(Path::toFile)
-                    .toList().stream().filter(file -> file.getName().endsWith(".txt") && file.isFile() && !file.getName().equals("test.txt"))
+                    .toList()
                     .forEach((File file) ->
                     {
-                        try (BufferedReader reader = new BufferedReader(new FileReader(file)))
-                        {
-                            List<String> content = Files.readAllLines(file.toPath());
-                            for (var line : content)
-                            {
-                                /*
-                                Todo: need to figure out how to add all tags in document as List<Tag>
-                                 */
-                                if (line.contains("tags"))
-                                {
-                                    String[] currentLine = line.split("[:,]+");
-                                }
-
-                                // get price
-                                if (line.contains("price"))
-                                {
-                                    String[] currentLine = line.replace(",", "").split(":");
-                                    this.price = Double.parseDouble(currentLine[1]);
-                                }
-
-                                //TODO: get description
-                            }
-                        } catch (IOException e)
-                        {
-                            throw new RuntimeException("Error parsing file " + e);
-                        }
-
-                        // create the current item that will be populated
                         Item item = new Item();
-                        item.setName(file.getName().replace(".txt", ""));
-                        item.setPrice(price);
-                        item.setTags(tags);
-                        this.itemRepository.save(item);
+
+                        if (file.getName().endsWith(".properties")) {
+                            try {
+                                item.setName(file.getName().replace(".properties", "").replace("_", " "));
+
+                                Properties p = new Properties();
+                                p.load(new FileInputStream(file));
+                                List<Tag> tags = new ArrayList<>();
+
+                                for (String s : p.getProperty("tags").split(",")) {
+                                    Tag t = new Tag();
+                                    t.setTag(s);
+
+                                    tags.add(t);
+                                }
+
+                                item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
+                                item.setTags(tags);
+                                item.setDescription(p.getProperty("description"));
+                            } catch (Exception e) {
+                                throw new RuntimeException("Error parsing file " + e);
+                            }
+                        } else if (file.getName().endsWith(".jpg"))
+                            item.setImage("http://localhost:9080/catalog/"+file.getName());
+
+                        itemServiceImp.addItem(item);
                     });
         } catch (IOException io)
         {
             throw new RuntimeException(io.getCause());
         }
 
-        return itemRepository.findAll().toString();
+        return itemServiceImp.getAllItems().toString();
     }
 }

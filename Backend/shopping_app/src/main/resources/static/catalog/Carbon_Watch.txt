@@ -1,6 +1,0 @@
-tags:Watch
-
-price:1000.00
-
-description:A beautifully crafted watch made with carbon crystals
- to prevent scratches or cracks.

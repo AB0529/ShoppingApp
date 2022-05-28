@@ -9,6 +9,7 @@ import com.genspark.shopping_app.Entity.User;
 import com.genspark.shopping_app.Model.RegisterRequest;
 import com.genspark.shopping_app.Model.UserUpdateRequest;
 import com.genspark.shopping_app.Model.UserCard;
+import com.genspark.shopping_app.Service.Imp.PopulateServiceImpl;
 import com.genspark.shopping_app.Service.Imp.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,8 @@ public class UserController
 {
     @Autowired
     private UserServiceImp userServiceImp;
+    @Autowired
+    private PopulateServiceImpl populateService;
     @Autowired
     private JasyptConfig jasyptConfig;
 
@@ -142,5 +145,11 @@ public class UserController
         }
 
         return new ResponseEntity(new ApiResponse("Login unauthorized", null), HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping("/t")
+    public ResponseEntity t() {
+        String s = populateService.populateDatabase();
+        return new ResponseEntity(new ApiResponse(s, null), HttpStatus.OK);
     }
 }

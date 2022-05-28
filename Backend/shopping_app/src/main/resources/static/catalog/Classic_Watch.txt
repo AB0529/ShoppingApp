@@ -1,5 +1,0 @@
-tags:watch
-
-price:59.99
-
-description:A classice pocket watch.

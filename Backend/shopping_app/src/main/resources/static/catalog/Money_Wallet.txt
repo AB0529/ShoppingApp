@@ -1,6 +1,0 @@
-tags:wallets,
-
-price:99.99
-
-description: if you wallet is empty you wont fill like it,
- because it looks like a hundred dollar bill
