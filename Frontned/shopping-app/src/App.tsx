@@ -18,6 +18,8 @@ import Catalog from './pages/catalog';
 import ShoppingCart from './pages/cart';
 import Checkout from './pages/checkout';
 import AboutPage from './pages/aboutPage';
+import { AdminRoute } from './auth/AdminRoute';
+import AdminPage from './pages/admin/adminPage';
 
 
 function App() {
@@ -34,6 +36,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/admin" element={<AdminRoute />}>
+                <Route path="/admin" element={<AdminPage />} />
+              </Route>
               <Route path="/cart" element={<PrivateRoute />}>
                 <Route path="/cart" element={<ShoppingCart />} />
               </Route>
@@ -45,7 +50,8 @@ function App() {
               <Route path="/catalog" element={<Catalog />} />
               <Route path="/checkout" element={<PrivateRoute />}>
                 <Route path="/checkout" element={<Checkout />} />
-              </Route>              <Route path="*" element={<NotFound />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
           <Toggle theme={theme} toggleTheme={themeToggler} />
