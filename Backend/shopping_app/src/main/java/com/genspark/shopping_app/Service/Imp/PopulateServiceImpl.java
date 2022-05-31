@@ -69,7 +69,6 @@ public class PopulateServiceImpl implements PopulateService
             System.out.println("after stream");
 
             paths.map(Path::toFile)
-                    .toList()
                     .forEach((File file) ->
                             {
                                 Item item = new Item();
