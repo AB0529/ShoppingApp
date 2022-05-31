@@ -11,6 +11,7 @@ export interface IItem {
     description: string,
     tags: Array<ITag>,
     itemID: number
+    deal?: boolean
 }
 
 export interface ICard {

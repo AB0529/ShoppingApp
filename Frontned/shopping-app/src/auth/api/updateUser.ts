@@ -2,27 +2,27 @@ import config from "../../config/config";
 import { IItem, IUser } from "../Typings";
 import { handleResponse } from "./handleResponse";
 
-export function addToCart(item: IItem, userID: number) {
-	return new Promise<IUser>(async (resolve, reject) => {
-		if (!item || !userID)
-			return reject('No cart or userID provided');
+// export function addToCart(item: IItem, userID: number) {
+// 	return new Promise<IUser>(async (resolve, reject) => {
+// 		if (!item || !userID)
+// 			return reject('No cart or userID provided');
 
-		const resp = await fetch(`${config.apiURL}/users/addToCart`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ item, userID })
-		});
-		const user: IUser = await handleResponse(resp).catch((e: any) => {
-			return reject(e)
-		});
+// 		const resp = await fetch(`${config.apiURL}/users/addToCart`, {
+// 			method: 'POST',
+// 			headers: { 'Content-Type': 'application/json' },
+// 			body: JSON.stringify({ item, userID })
+// 		});
+// 		const user: IUser = await handleResponse(resp).catch((e: any) => {
+// 			return reject(e)
+// 		});
 
-		// Make sure correct user is returned
-		if (user.userID != userID)
-			return reject('Incorrect user recived');
+// 		// Make sure correct user is returned
+// 		if (user.userID != userID)
+// 			return reject('Incorrect user recived');
 
-		return resolve(user);
-	});
-}
+// 		return resolve(user);
+// 	});
+// }
 
 
 export function updateCart(cart: Array<IItem>, userID: number) {
@@ -151,8 +151,6 @@ export function updateUser(user: IUser) {
 	return new Promise<IUser>(async (resolve, reject) => {
 		if (!user)
 			return reject('No user or userID provided');
-
-		console.log(user);
 
 		const resp = await fetch(`${config.apiURL}/users/update`, {
 			method: 'POST',

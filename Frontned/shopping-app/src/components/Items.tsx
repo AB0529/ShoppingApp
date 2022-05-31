@@ -8,8 +8,9 @@ import config from "../config/config";
 import { useStickyState } from "../state/stickyState";
 import Title from "./Title";
 import { setGlobalState, useGlobalState } from "../state/globalState";
-import { addToCart, updateUser } from "../auth/api/updateUser";
+import { updateCart } from "../auth/api/updateUser";
 import { setUser } from "../auth/UserService";
+import Cart from "./Cart";
 
 function Items() {
 	const [items, setItems] = useState<Array<IItem>>([]);
@@ -96,13 +97,13 @@ function Items() {
 											navigate('/login');
 
 										getItemByID(item.itemID).then(i => {
-											addToCart(i, user.userID).then((u) => {
-												handleShow();
+											user.cart.push(i);
+											updateCart(user.cart, user.userID).then((user) => {
+												setUser(user);
 												setGlobalState('cartCount', cartCount + 1);
-												setUser(u);
-												updateUser(u);
-											});
-										});
+												handleShow();
+											}).catch(e => console.error(`CartItems: ${e}`));
+										}).catch(e => console.error(`CartItemsGetItem: ${e}`));
 									}}>Add to Cart</Button>
 								</Card>
 							</Col>
@@ -118,7 +119,7 @@ function Items() {
 				</Modal.Header>
 				<Modal.Body className="text-center" >
 					<h5>Item added to cart</h5>
-					<Button variant="secondary" href="/cart"><GiShoppingCart size={30} /></Button>
+					<Cart />
 				</Modal.Body>
 			</Modal>
 		</Container >

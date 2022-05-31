@@ -71,7 +71,7 @@ return (
 					</Card.Body>
 				</Card>
 			</div>
-			<Footer />
+			<Footer className="footer" />
 		</>
 	)
 }

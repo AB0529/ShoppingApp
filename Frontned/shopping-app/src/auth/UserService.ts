@@ -38,7 +38,7 @@ export function refreshUser() {
 
 export function login(username: string, password: string) {
 	return authenticateUser(username, password).then(u => {
-		setUser(u as any)
+		setUser(u);
 		return u;
 	});
 }

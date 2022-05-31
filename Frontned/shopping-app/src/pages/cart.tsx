@@ -51,7 +51,7 @@ function ShoppingCart() {
 								<h5>{item.description}</h5>
 							</td>
 							<td width={100}>
-								<h5>${item.price}</h5>
+								<h5>{item.deal ? (<h1>Hi</h1>) : (<span>${item.price}</span>)}</h5>
 							</td>
 						</tr>
 					)

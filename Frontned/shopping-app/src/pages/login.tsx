@@ -13,7 +13,7 @@ function Login() {
 
 	return (
 		<>
-      <Bar />
+			<Bar />
 			<div className="login-wrapper">
 				<Card>
 					<Card.Header as="h5">Login</Card.Header>
@@ -31,7 +31,7 @@ function Login() {
 								setStatus();
 								login(username, password)
 									.then(() => {
-										navigate("/");
+										navigate(-1);
 									}).catch(() => {
 										setSubmitting(false);
 										setStatus("Invalid login");
@@ -62,7 +62,7 @@ function Login() {
 					</Card.Body>
 				</Card>
 			</div>
-			<Footer />
+			<Footer className="footer" />
 		</>
 	)
 }

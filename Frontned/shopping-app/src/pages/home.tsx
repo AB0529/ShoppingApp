@@ -4,6 +4,7 @@ import { IItem } from "../auth/Typings";
 import Bar from "../components/Bar";
 import { Carasoul } from "../components/carasoul";
 import Footer from "../components/Footer";
+import LightningDeals from "../components/LightningDeals";
 import Title from "../components/Title";
 import config from "../config/config";
 
@@ -20,8 +21,8 @@ function Home() {
         <>
             <Bar />
             <Carasoul items={items} />
+            <LightningDeals />
             <Footer />
-
         </>
     )
 }

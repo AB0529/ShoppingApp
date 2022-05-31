@@ -43,8 +43,9 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/catalog" element={<Catalog />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="/checkout" element={<PrivateRoute />}>
+                <Route path="/checkout" element={<Checkout />} />
+              </Route>              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
           <Toggle theme={theme} toggleTheme={themeToggler} />
