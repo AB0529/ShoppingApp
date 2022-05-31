@@ -4,9 +4,12 @@ import { GiShoppingCart } from "react-icons/gi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getItemByID } from "../auth/api/getItemByID";
 import { IItem, ITag } from "../auth/Typings";
-import { addToCart } from "../auth/UserService";
 import config from "../config/config";
 import { useStickyState } from "../state/stickyState";
+import Title from "./Title";
+import { setGlobalState, useGlobalState } from "../state/globalState";
+import { addToCart, updateUser } from "../auth/api/updateUser";
+import { setUser } from "../auth/UserService";
 
 function Items() {
 	const [items, setItems] = useState<Array<IItem>>([]);
@@ -15,6 +18,7 @@ function Items() {
 	const [show, setShow] = useState(false);
 	const [user] = useStickyState(null, 'user');
 	const navigate = useNavigate();
+	const [cartCount] = useGlobalState('cartCount');
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -52,11 +56,11 @@ function Items() {
 
 	return (
 		<Container fluid>
-			<div className="d-flex align-items-center justify-content-center">
-				<h1 className="title">
-					<strong> Explore our Items </strong>
-					<hr className="title-line" style={{ borderColor: "#42f554" }} />
-					<Form>
+			<Title title="Explore Our Items" color="#42f554" />
+
+			<Container>
+				<div className="d-flex align-items-center justify-content-center">
+					<Form className="w-30">
 						<FormControl
 							id="searchBar"
 							type="text"
@@ -66,10 +70,7 @@ function Items() {
 							onChange={(event) => handleSearch(event, null)}
 						/>
 					</Form>
-				</h1>
-			</div>
-
-			<Container>
+				</div>
 				<Row md="auto" className="d-flex align-items-center justify-content-center">
 					{filteredItems ? filteredItems.map((item: IItem) => {
 						return (
@@ -94,9 +95,13 @@ function Items() {
 										if (!user)
 											navigate('/login');
 
-										const i: IItem = await getItemByID(item.itemID);
-										addToCart(i)?.then(() => {
-											handleShow();
+										getItemByID(item.itemID).then(i => {
+											addToCart(i, user.userID).then((u) => {
+												handleShow();
+												setGlobalState('cartCount', cartCount + 1);
+												setUser(u);
+												updateUser(u);
+											});
 										});
 									}}>Add to Cart</Button>
 								</Card>

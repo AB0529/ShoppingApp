@@ -181,3 +181,16 @@ padding-top: 25vh;
 	object-fit: cover;
 	max-height: 512px;
 }
+
+.about-text {
+  font-size: 20px;
+  // font-family: "Nunito Sans", sans-serif;
+}
+
+.about-text-header {
+  font-size: 30px;
+  // font-family: "Cedarville Cursive", cursive;
+  text-underline-position: below;
+  text-decoration: underline;
+  text-decoration-color: #998b2e;
+}

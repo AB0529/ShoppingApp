@@ -1,17 +1,20 @@
-import { FormEventHandler, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navbar, Container, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { refreshUser } from "../auth/UserService";
-import { useStickyState } from "../state/stickyState";
 
 import Cart from "./Cart";
 import UserIcon from "./UserIcon";
 
 function Bar() {
+    const [currentPage, setCurrentPage] = useState('home');
+
     // Refresh login
     useEffect(() => {
         refreshUser();
+        const page = window.location.pathname.replace('/', '');
+        setCurrentPage(page === "" ? "home" : page);
     }, [])
 
     const navigate = useNavigate();
@@ -33,10 +36,14 @@ function Bar() {
         {
             name: "Catalog",
             href: "/catalog",
+        },
+        {
+            name: "About Us",
+            href: "/about",
         }
     ].map(item => {
         return (
-            <Nav.Link href={item.href}> {item.name} </Nav.Link>
+            <Nav.Link href={item.href}> {item.name.toLowerCase().toLowerCase().includes(currentPage) ? (<strong>{item.name}</strong>): item.name} </Nav.Link>
         )
     });
 

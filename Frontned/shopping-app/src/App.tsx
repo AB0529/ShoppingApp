@@ -17,6 +17,7 @@ import Toggle from './components/ThemeToggler';
 import Catalog from './pages/catalog';
 import ShoppingCart from './pages/cart';
 import Checkout from './pages/checkout';
+import AboutPage from './pages/aboutPage';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/about" element={<AboutPage />} />
               <Route path="/cart" element={<PrivateRoute />}>
                 <Route path="/cart" element={<ShoppingCart />} />
               </Route>
