@@ -1,6 +1,0 @@
-tags:Weapon
-
-price:0.50
-
-description:The perfect weapon. Will allow to "get rid of" any 
-annoying people in your life. 10000% guaranty. NO, this is not a scam.

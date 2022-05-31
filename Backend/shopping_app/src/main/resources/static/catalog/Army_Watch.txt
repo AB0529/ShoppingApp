@@ -1,5 +1,0 @@
-tags:Watch
-
-price:20.00
-
-description:A reliable watch used by the army.

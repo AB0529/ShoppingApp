@@ -18,10 +18,10 @@ public class Tag {
     @JoinColumn(name = "itemID")
     private Item item;
 
-    public Tag(int tagId,String tag, Item item) {
+    public Tag(int tagId,String tag, Item itemID) {
         this.tagID = tagId;
         this.tag = tag;
-        this.item = item;
+        this.item = itemID;
     }
     public Tag(){}
 

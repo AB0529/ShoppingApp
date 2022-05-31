@@ -7,78 +7,106 @@ import com.genspark.shopping_app.Repository.Services.PopulateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
+import java.util.stream.Stream;
 
 @Service
 public class PopulateServiceImpl implements PopulateService
 {
     @Autowired
-    public ItemRepository itemRepository;
-    private List<Tag> tags;
-    private int price;
+    public ItemServiceImp itemServiceImp;
 
     @Override
     public String populateDatabase()
     {
-        // trying to get all of the txt files read and put in as items for ItemRepository
-        List<File> filesInFolder;
-
-        try
-        {
-            filesInFolder = Files.walk(Paths.get("src/main/resources/static/catalog/Army_Watch.txt"))
-                    .map(Path::toFile).toList();
-        } catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-
-
-        for (File file : filesInFolder)
-        {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file)))
-            {
-                List<String> content = Files.readAllLines(file.toPath());
-                for (var line : content)
-                {
-                    //  get tags
-                    if (line.contains("tags"))
-                    {
-                        String[] currentLine = line.split("[:,]+");
-                        Tag tag = new Tag();
-                        tag.setTag(currentLine[1]);
-                    }
-                    // get price
-                    if (line.contains("price"))
-                    {
-                        String[] currentLine = line.split(":");
-                        this.price = (int) Double.parseDouble(currentLine[1]);
-                    }
-                }
-            } catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-
+        /*
+        scanning all the files in the folder, excluding test.txt because it is blank
+        parsing the files for the information for the items
+         */
+        System.out.println("before stream");
+        try{
+            InputStream in = new FileInputStream("E:\\GenSpark\\ShoppingApp\\Backend\\shopping_app\\src\\main\\resources\\static\\catalog\\Army_Watch.properties");
+            //Scanner myReader = new Scanner(myObj);
+            File file = new File("Army_Watch.properties");
             Item item = new Item();
-            item.setName(file.getName().replace(".txt", ""));
-            item.setPrice(price);
+            item.setName(file.getName().replace(".properties", "").replace("_", " "));
+
+            Properties p = new Properties();
+            p.load(in);
+            List<Tag> tags = new ArrayList<>();
+            for (String s : p.getProperty("tags").split(",")) {
+                Tag t = new Tag();
+                t.setTag(s);
+
+                tags.add(t);
+            }
+            item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
             item.setTags(tags);
-            itemRepository.save(item);
+            item.setDescription(p.getProperty("description"));
+            itemServiceImp.addItem(item);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return itemRepository.findAll().toString();
+
+        return itemServiceImp.getAllItems().toString();
     }
 
-    FilenameFilter filter = new FilenameFilter()
-    {
-        @Override
-        public boolean accept(File dir, String name)
+
+    public String test(){
+        try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
+
         {
-            return name.endsWith(".txt");
+            System.out.println("after stream");
+
+            paths.map(Path::toFile)
+                    .forEach((File file) ->
+                            {
+                                Item item = new Item();
+                                //clean later
+                                if (file.getName().endsWith(".properties")) {
+                                    try {
+                                        item.setName(file.getName().replace(".properties", "").replace("_", " "));
+
+                                        Properties p = new Properties();
+                                        p.load(new FileInputStream(file));
+                                        List<Tag> tags = new ArrayList<>();
+
+                                        for (String s : p.getProperty("tags").split(",")) {
+                                            Tag t = new Tag();
+                                            t.setTag(s);
+
+                                            tags.add(t);
+                                        }
+
+                                        item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
+                                        item.setTags(tags);
+                                        item.setDescription(p.getProperty("description"));
+                                        item.setImage("http://localhost:9080/catalog/" + p.getProperty("image"));
+                                        itemServiceImp.addItem(item);
+
+                                    } catch (Exception e) {
+                                        throw new RuntimeException("Error parsing file " + e);
+                                    }
+                                } else if (file.getName().endsWith(".jpg")) {
+                                    //item.setImage("http://localhost:9080/catalog/" + file.getName());
+                                }
+
+                    });
+        } catch (IOException io)
+        {
+            throw new RuntimeException(io.getCause());
         }
-    };
+        return itemServiceImp.getAllItems().toString();
+
+    }
 }

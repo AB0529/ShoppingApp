@@ -1,5 +1,0 @@
-tags:knife,screwdriver
-
-price:1.00
-
-description:THIS KNIFE WROKS GRAET!!!!

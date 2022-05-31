@@ -1,6 +1,0 @@
-tags:Wallet,
-
-price:49.99
-
-description:The most Basic of basic wallets, 
-for when you just need a wallet.

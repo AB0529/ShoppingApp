@@ -1,6 +1,0 @@
-tags:dog, toy
-
-price:10.01
-
-description:this duck will make your dog go nuts for about 5 mins and is
-guaranty to last at least 24 hours.

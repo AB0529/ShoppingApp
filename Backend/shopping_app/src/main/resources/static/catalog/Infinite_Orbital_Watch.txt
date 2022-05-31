@@ -1,5 +1,0 @@
-tags:watch
-
-price:999.99
-
-description:If you are looking for the description please refer to 
