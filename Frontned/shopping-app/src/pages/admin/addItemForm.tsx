@@ -1,15 +1,13 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { Button, Card, FormGroup } from "react-bootstrap";
+import { Card, FormGroup } from "react-bootstrap";
 
 import * as Yup from 'yup';
-import { ITag, IUser } from "../../auth/Typings";
-import { setUser } from "../../auth/UserService";
 import { addItem } from "../../auth/api/addItem";
 
 export function AddItemForm() {
 	return (
 		(
-			<Card style={{ width: '18rem', height: '25rem' }}>
+			<Card style={{ width: '18rem', height: '30rem' }}>
 				<Card.Body>
 					<Card.Title>Add Item</Card.Title>
 					<Card.Subtitle className="mb-2 text-muted">Add an item to the database</Card.Subtitle>
@@ -29,7 +27,7 @@ export function AddItemForm() {
 								tags: Yup.string().required('Tags are requried'),
 								price: Yup.number().required('Price is required').typeError('Price must be a valid number')
 							})}
-							onSubmit={({ name, description, image, tags, price }, { setStatus, setSubmitting }) => {
+							onSubmit={({ name, description, image, tags, price }, { setStatus, setSubmitting, resetForm }) => {
 								const t = [];
 
 								for (let tag of tags.split(',')) {
@@ -39,10 +37,14 @@ export function AddItemForm() {
 								setStatus();
 								setSubmitting(true);
 								addItem(name, description, price, image, t).then(() => {
-									setStatus('Item added');
+									resetForm();
+									setStatus({type: 'success', msg: 'Item added!'});
+									setTimeout(() => {
+										setStatus();
+									}, 3e3);
 									setSubmitting(false);
 								}).catch(e => {
-									setStatus(e)
+									setStatus({type: 'fail', msg: e})
 									setSubmitting(false);
 								});
 							}}
@@ -78,7 +80,7 @@ export function AddItemForm() {
 										<button type="submit" className="btn btn-success" disabled={isSubmitting}>Submit</button>
 										{isSubmitting && <img src="/loading.gif" alt="loading" />}
 									</FormGroup>
-									{status && <div className={'alert alert-danger'}>{status}</div>}
+									{status && status.type === "fail" ? <div className={'alert alert-danger'}>{status.msg}</div> : status && <div className={'alert alert-success'}>{status.msg}</div>}
 								</Form>
 							)}
 						>

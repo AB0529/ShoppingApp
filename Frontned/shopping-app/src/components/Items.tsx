@@ -3,7 +3,7 @@ import { Button, Card, Col, Container, Form, FormControl, Modal, Row } from "rea
 import { GiShoppingCart } from "react-icons/gi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getItemByID } from "../auth/api/getItemByID";
-import { IItem, ITag } from "../auth/Typings";
+import { IItem, ITag, IUser } from "../auth/Typings";
 import config from "../config/config";
 import { useStickyState } from "../state/stickyState";
 import Title from "./Title";
@@ -11,6 +11,7 @@ import { setGlobalState, useGlobalState } from "../state/globalState";
 import { updateCart } from "../auth/api/updateUser";
 import { setUser } from "../auth/UserService";
 import Cart from "./Cart";
+import { deleteItem } from "../auth/api/deleteItem";
 
 function Items() {
 	const [items, setItems] = useState<Array<IItem>>([]);
@@ -105,6 +106,22 @@ function Items() {
 											}).catch(e => console.error(`CartItems: ${e}`));
 										}).catch(e => console.error(`CartItemsGetItem: ${e}`));
 									}}>Add to Cart</Button>
+									{user && config.adminIDs.indexOf(user.userID) !== -1 && (
+										<Button variant="danger" onClick={() => {
+											deleteItem(item.itemID).then(() => {
+												if (user.cart.filter((i: IItem) => i.itemID == item.itemID ).length > 0) {
+													console.log(`AMONMG UIS`)
+													user.cart.splice(user.cart.indexOf(item), 1);
+													updateCart(user.cart, user.userID).then((user) => {
+														setUser(user);
+														setGlobalState('cartCount', cartCount + 1);
+														handleShow();
+													}).catch(e => console.error(`CartItems: ${e}`));
+												}
+												window.location.reload();
+											}).catch(e => console.error(`CartItemsDeleteItem: ${e}`));
+										}}>Delete</Button>
+									)}
 								</Card>
 							</Col>
 						)

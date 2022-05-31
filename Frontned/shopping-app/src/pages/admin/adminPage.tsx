@@ -2,6 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import Bar from "../../components/Bar";
 import Title from "../../components/Title";
 import { AddItemForm } from "./addItemForm";
+import { DeleteItemForm } from "./deleteItemForm";
 
 function AdminPage() {
 	return (
@@ -12,6 +13,9 @@ function AdminPage() {
 				<Row className="edit-cards">
 					<Col>
 						<AddItemForm />
+					</Col>
+					<Col>
+						<DeleteItemForm />
 					</Col>
 				</Row>
 			</Container>

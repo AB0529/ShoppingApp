@@ -2,18 +2,15 @@ import config from "../../config/config";
 import { IItem, ITag, IUser } from "../Typings";
 import { handleResponse } from "./handleResponse";
 
-export function addItem(name: string, description: string, price: number, image: string, tags: any) {
+export function deleteItem(itemID: number|null) {
 	return new Promise<IItem>(async (resolve, reject) => {
-		const resp = await fetch(`${config.apiURL}/items/add`, {
-			method: 'POST',
+		if (!itemID)
+			return reject('ItemID must be provided');
+
+		const resp = await fetch(`${config.apiURL}/items/delete/${itemID}`, {
+			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ 
-				name: name,
-				price: parseInt(price.toString()),
-				image: image,
-				description: description,
-				tags: tags
-			 })
+			body: JSON.stringify({itemID})
 		});
 
 		const item: IItem = await handleResponse(resp).catch((e: any) => {
