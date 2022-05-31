@@ -34,7 +34,7 @@ public class PopulateServiceImpl implements PopulateService
         try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
         {
             paths.map(Path::toFile)
-                    .map((File file) ->
+                    .forEach((File file) ->
                     {
                         Item item = new Item();
 
@@ -63,7 +63,6 @@ public class PopulateServiceImpl implements PopulateService
                             item.setImage("http://localhost:9080/catalog/"+file.getName());
 
                         itemServiceImp.addItem(item);
-                        return null;
                     });
         } catch (IOException io)
         {
