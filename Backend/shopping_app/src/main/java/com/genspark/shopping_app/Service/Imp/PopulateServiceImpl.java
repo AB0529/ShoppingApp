@@ -31,45 +31,83 @@ public class PopulateServiceImpl implements PopulateService
         scanning all the files in the folder, excluding test.txt because it is blank
         parsing the files for the information for the items
          */
-        try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
+        System.out.println("before stream");
+        try{
+            InputStream in = new FileInputStream("E:\\GenSpark\\ShoppingApp\\Backend\\shopping_app\\src\\main\\resources\\static\\catalog\\Army_Watch.properties");
+            //Scanner myReader = new Scanner(myObj);
+            File file = new File("Army_Watch.properties");
+            Item item = new Item();
+            item.setName(file.getName().replace(".properties", "").replace("_", " "));
+
+            Properties p = new Properties();
+            p.load(in);
+            List<Tag> tags = new ArrayList<>();
+            for (String s : p.getProperty("tags").split(",")) {
+                Tag t = new Tag();
+                t.setTag(s);
+
+                tags.add(t);
+            }
+            item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
+            item.setTags(tags);
+            item.setDescription(p.getProperty("description"));
+            itemServiceImp.addItem(item);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return itemServiceImp.getAllItems().toString();
+    }
+
+
+    public String test(){
+        try (Stream<Path> paths = Files.walk(Paths.get("E:\\GenSpark\\ShoppingApp\\Backend\\shopping_app\\src\\main\\resources\\static\\catalog")))
+
         {
+            System.out.println("after stream");
+
             paths.map(Path::toFile)
                     .toList()
                     .forEach((File file) ->
-                    {
-                        Item item = new Item();
+                            {
+                                Item item = new Item();
+                                //clean later
+                                if (file.getName().endsWith(".properties")) {
+                                    try {
+                                        item.setName(file.getName().replace(".properties", "").replace("_", " "));
 
-                        if (file.getName().endsWith(".properties")) {
-                            try {
-                                item.setName(file.getName().replace(".properties", "").replace("_", " "));
+                                        Properties p = new Properties();
+                                        p.load(new FileInputStream(file));
+                                        List<Tag> tags = new ArrayList<>();
 
-                                Properties p = new Properties();
-                                p.load(new FileInputStream(file));
-                                List<Tag> tags = new ArrayList<>();
+                                        for (String s : p.getProperty("tags").split(",")) {
+                                            Tag t = new Tag();
+                                            t.setTag(s);
 
-                                for (String s : p.getProperty("tags").split(",")) {
-                                    Tag t = new Tag();
-                                    t.setTag(s);
+                                            tags.add(t);
+                                        }
 
-                                    tags.add(t);
+                                        item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
+                                        item.setTags(tags);
+                                        item.setDescription(p.getProperty("description"));
+                                        item.setImage(p.getProperty("image"));
+                                        itemServiceImp.addItem(item);
+
+                                    } catch (Exception e) {
+                                        throw new RuntimeException("Error parsing file " + e);
+                                    }
+                                } else if (file.getName().endsWith(".jpg")) {
+                                    //item.setImage("http://localhost:9080/catalog/" + file.getName());
                                 }
 
-                                item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
-                                item.setTags(tags);
-                                item.setDescription(p.getProperty("description"));
-                            } catch (Exception e) {
-                                throw new RuntimeException("Error parsing file " + e);
-                            }
-                        } else if (file.getName().endsWith(".jpg"))
-                            item.setImage("http://localhost:9080/catalog/"+file.getName());
-
-                        itemServiceImp.addItem(item);
                     });
         } catch (IOException io)
         {
             throw new RuntimeException(io.getCause());
         }
-
         return itemServiceImp.getAllItems().toString();
+
     }
 }

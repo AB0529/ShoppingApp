@@ -3,6 +3,7 @@ package com.genspark.shopping_app.Controller;
 import com.genspark.shopping_app.Model.ApiResponse;
 import com.genspark.shopping_app.Entity.Item;
 import com.genspark.shopping_app.Service.Imp.ItemServiceImp;
+import com.genspark.shopping_app.Service.Imp.PopulateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,8 @@ public class ItemController {
 
     @Autowired
     private ItemServiceImp itemServiceImp;
-
+    @Autowired
+    private PopulateServiceImpl populateService;
     @GetMapping("/{iId}")
     public ResponseEntity getItem(@PathVariable int iId){
         try{

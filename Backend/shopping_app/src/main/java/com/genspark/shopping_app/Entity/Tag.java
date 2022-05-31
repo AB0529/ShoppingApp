@@ -16,12 +16,12 @@ public class Tag {
     // linking between tag table and item table
     @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "itemID")
-    private Item item;
+    private Item itemID;
 
-    public Tag(int tagId,String tag, Item item) {
+    public Tag(int tagId,String tag, Item itemID) {
         this.tagID = tagId;
         this.tag = tag;
-        this.item = item;
+        this.itemID = itemID;
     }
     public Tag(){}
 
@@ -34,11 +34,11 @@ public class Tag {
     }
 
     public Item getItem() {
-        return item;
+        return itemID;
     }
 
     public void setItem(Item item) {
-        this.item = item;
+        this.itemID = item;
     }
 
     public int getTagID() {
@@ -54,7 +54,7 @@ public class Tag {
         return "Tag{" +
                 "tagID=" + tagID +
                 ", tag='" + tag + '\'' +
-                ", item=" + item +
+                ", item=" + itemID +
                 '}';
     }
 }
