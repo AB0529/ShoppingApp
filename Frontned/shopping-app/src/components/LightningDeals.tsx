@@ -44,6 +44,10 @@ function LightningDeals() {
 		<>
 			<Title title="Lightning Deals" color="#a83281" />
 			<Container fluid>
+				{
+					
+				}
+				
 				<Countdown
 					date={Date.now() + TIMER}
 					key={complted}
@@ -71,7 +75,7 @@ function LightningDeals() {
 								</Card.Header>
 								<Card.Body>
 									<Card.Text>
-										<img src={item.image} width={64} height={64} /> {item.description}
+										<img src={`${config.imgURL}/${item.image}`} width={64} height={64} /> {item.description}
 									</Card.Text>
 								</Card.Body>
 								<Card.Footer>
@@ -83,7 +87,6 @@ function LightningDeals() {
 										item.deal = true;
 										item.price = newPrice;
 										user.cart.push(item);
-										console.log(item);
 										updateCart(user.cart, user.userID).then((user) => {
 											setUser(user);
 											setGlobalState('cartCount', cartCount + 1);

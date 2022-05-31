@@ -7,6 +7,7 @@ import { removeFromCart, setUser } from "../auth/UserService";
 import Bar from "../components/Bar";
 import Footer from "../components/Footer";
 import Title from "../components/Title";
+import config from "../config/config";
 import { useStickyState } from "../state/stickyState";
 
 function ShoppingCart() {
@@ -40,7 +41,7 @@ function ShoppingCart() {
 							<td valign="middle" align="center" width={100}>
 								<img
 									className="item-img"
-									src={item.image}
+									src={`${config.imgURL}/${item.image}`}
 									width="64"
 									height="64"
 									alt="item-img"
@@ -99,7 +100,7 @@ function ShoppingCart() {
 				)
 				}
 			</Container>
-			<Footer />
+			<Footer className="footer" />
 		</>
 	)
 }

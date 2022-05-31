@@ -7,6 +7,7 @@ import { Card } from "react-bootstrap";
 import Bar from "../components/Bar";
 import Footer from "../components/Footer";
 import { registerUser } from "../auth/api/registerUser";
+import { setUser } from "../auth/UserService";
 
 function Register() {
 	const navigate = useNavigate();
@@ -34,8 +35,9 @@ return (
 								setStatus();
 
 								registerUser(username, password)
-									.then(() => {
+									.then((u) => {
 										navigate("/");
+										setUser(u);
 									}).catch((e: any) => {
 										setSubmitting(false);
 										setStatus("Something went wrong: " + e);
