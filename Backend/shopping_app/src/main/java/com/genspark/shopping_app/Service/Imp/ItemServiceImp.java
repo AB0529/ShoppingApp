@@ -70,4 +70,11 @@ public class ItemServiceImp implements ItemService {
 
         return "Item with ID: " + itemID + " Deleted";
     }
+
+    @Override
+    public Iterator<Item> getRandomItemsMax(int max) {
+        Iterable<Item> items = this.itemRepository.findRandomMax(max);
+
+        return items.iterator();
+    }
 }

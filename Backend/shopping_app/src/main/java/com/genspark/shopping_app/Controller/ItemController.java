@@ -42,6 +42,15 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/random/{max}")
+    public ResponseEntity getRandomMax(@PathVariable int max) {
+        try{
+            return new ResponseEntity(new ApiResponse("Items found", this.itemServiceImp.getRandomItemsMax(max)), HttpStatus.OK);}
+        catch (Exception e){
+            return new ResponseEntity(new ApiResponse("Items not found", null), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity addItem(@RequestBody Item item){
         try {

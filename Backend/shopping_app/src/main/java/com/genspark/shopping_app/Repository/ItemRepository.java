@@ -16,4 +16,7 @@ public interface ItemRepository extends JpaRepository<Item,Integer> {
 
     @Query(value = "SELECT * FROM tbl_items LIMIT :m", nativeQuery = true)
     Iterable<Item> findAllMax(@Param("m") int max);
+
+    @Query(value = "SELECT * FROM tbl_items ORDER BY RAND() LIMIT :m", nativeQuery = true)
+    Iterable<Item> findRandomMax(@Param("m") int max);
 }

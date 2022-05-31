@@ -7,18 +7,8 @@ const user: IUser = JSON.parse(window.localStorage.getItem('user') as string);
 
 export function setUser(user: IUser|null) {
 	window.localStorage.setItem('user', JSON.stringify(user));
-}
-
-export function addToCart(item: IItem) {
-	if (!user)
-		return;
-	
-	user.cart.push(item);
-	return updateCart(user.cart, user.userID).then(u => {
-		setUser(u);
-	}).catch(e => {
-		console.error(`AddToCart: ${e}`);
-	})
+	if (user)
+		updateUser(user);
 }
 
 export function removeFromCart(item: IItem) {
@@ -48,7 +38,7 @@ export function refreshUser() {
 
 export function login(username: string, password: string) {
 	return authenticateUser(username, password).then(u => {
-		setUser(u as any)
+		setUser(u);
 		return u;
 	});
 }

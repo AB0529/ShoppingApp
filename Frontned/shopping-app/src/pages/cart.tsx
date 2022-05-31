@@ -6,6 +6,8 @@ import { IItem, IUser } from "../auth/Typings";
 import { removeFromCart, setUser } from "../auth/UserService";
 import Bar from "../components/Bar";
 import Footer from "../components/Footer";
+import Title from "../components/Title";
+import config from "../config/config";
 import { useStickyState } from "../state/stickyState";
 
 function ShoppingCart() {
@@ -50,7 +52,7 @@ function ShoppingCart() {
 								<h5>{item.description}</h5>
 							</td>
 							<td width={100}>
-								<h5>${item.price}</h5>
+								<h5>{item.deal ? (<h1>Hi</h1>) : (<span>${item.price}</span>)}</h5>
 							</td>
 						</tr>
 					)
@@ -77,12 +79,7 @@ function ShoppingCart() {
 	return (
 		<>
 			<Bar />
-			<div className="d-flex align-items-center justify-content-center">
-				<h1 className="title">
-					<strong> Your Order  </strong>
-					<hr className="title-line" style={{ borderColor: "#c4ad37" }} />
-				</h1>
-			</div>
+			<Title title="Your Order" color="#c4ad37" />
 			<Container fluid>
 				{user && (user as IUser).cart.length > 0 ? (
 					(
@@ -103,7 +100,7 @@ function ShoppingCart() {
 				)
 				}
 			</Container>
-			<Footer />
+			<Footer className="footer" />
 		</>
 	)
 }

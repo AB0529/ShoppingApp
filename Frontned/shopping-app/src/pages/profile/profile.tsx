@@ -8,6 +8,7 @@ import { UsernameCardForm } from "./usernameForm";
 import { NameCardForm } from "./nameForm";
 import { AddressCardForm } from "./addressForm";
 import { CreditCardForm } from "./creditCardForm";
+import Title from "../../components/Title";
 
 function Profile() {
 	const [user] = useStickyState(null, 'user');
@@ -19,12 +20,7 @@ function Profile() {
 	return (
 		<>
 			<Bar />
-			<div className="d-flex align-items-center justify-content-center">
-				<h1 className="title">
-					<strong> Edit Profile </strong>
-					<hr className="title-line" style={{ borderColor: "#52a352" }} />
-				</h1>
-			</div>
+			<Title title="Edit Profile" color="#52a352" />
 			<Container fluid>
 				<Row className="edit-cards">
 					<Col>
