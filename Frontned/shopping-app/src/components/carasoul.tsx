@@ -22,7 +22,7 @@ export function Carasoul(props: IProps) {
 						<Carousel.Item>
 								<img
 									className="d-block w-100 carousel-img"
-									src={`${config.imgURL}/${item.image}`}
+									src={item.image}
 									alt={item.name}
 									height={512}
 									width={512}

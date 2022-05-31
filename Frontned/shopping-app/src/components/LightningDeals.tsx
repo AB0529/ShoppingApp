@@ -75,7 +75,7 @@ function LightningDeals() {
 								</Card.Header>
 								<Card.Body>
 									<Card.Text>
-										<img src={`${config.imgURL}/${item.image}`} width={64} height={64} /> {item.description}
+										<img src={item.image} width={64} height={64} /> {item.description}
 									</Card.Text>
 								</Card.Body>
 								<Card.Footer>

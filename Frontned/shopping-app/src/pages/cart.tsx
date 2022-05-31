@@ -41,7 +41,7 @@ function ShoppingCart() {
 							<td valign="middle" align="center" width={100}>
 								<img
 									className="item-img"
-									src={`${config.imgURL}/${item.image}`}
+									src={item.image}
 									width="64"
 									height="64"
 									alt="item-img"
