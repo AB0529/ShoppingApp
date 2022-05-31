@@ -1,5 +1,7 @@
 package com.genspark.shopping_app.Entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,8 +15,8 @@ public class Item {
     private int itemID;
 
     // linking between tag table and item table
-    @OneToMany(cascade= CascadeType.ALL)
-    @JoinColumn(name = "itemID")
+    @OneToMany(cascade= CascadeType.REMOVE)
+    @JoinColumn(name = "item")
     @Column(unique = true)
     private List<Tag> tags;
     @Column

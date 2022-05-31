@@ -9,7 +9,9 @@ export interface IItem {
     name: string,
     image: string,
     description: string,
-    tags: Array<ITag>
+    tags: Array<ITag>,
+    itemID: number
+    deal?: boolean
 }
 
 export interface ICard {

@@ -1,18 +1,17 @@
-import { Container } from "react-bootstrap";
+interface IProps {
+	className?: string
+}
 
-import './css/footer.scss';
-
-function Footer() {
+function Footer(props: IProps) {
 	return (
-		<></>
-		// <footer className='text-center text-lg-left'>
-		// 	<div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-		// 		&copy; {new Date().getFullYear()} Copyright:{' '}
-		// 		<a href='https://rainforest.com/'>
-		// 			Rainforest.com
-		// 		</a>
-		// 	</div>
-		// </footer>
+		<footer className={`page-footer ${props.className}`}>
+			<div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+				&copy; {new Date().getFullYear()} Copyright:{' '}
+				<a href='https://rainforest.com/'>
+					Rainforest.com
+				</a>
+			</div>
+		</footer>
 	)
 }
 

@@ -4,7 +4,7 @@ package com.genspark.shopping_app.Controller;
 import com.genspark.shopping_app.Config.JasyptConfig;
 import com.genspark.shopping_app.Entity.Card;
 import com.genspark.shopping_app.Entity.Item;
-import com.genspark.shopping_app.Model.ApiResponse;
+import com.genspark.shopping_app.Model.*;
 import com.genspark.shopping_app.Entity.User;
 import com.genspark.shopping_app.Model.RegisterRequest;
 import com.genspark.shopping_app.Model.UserUpdateRequest;
@@ -111,8 +111,6 @@ public class UserController
                 c.setExpiration(card.getExpiration());
 
                 u.setCard(c);
-
-                System.out.println(u);
             }
             else if (user.getCart() != null)
                 u.setCart(user.getCart());
