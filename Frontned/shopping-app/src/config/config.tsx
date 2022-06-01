@@ -1,6 +1,6 @@
 export default {
-	apiURL: "http://localhost:9080",
-	siteURL: "http://localhost:3000",
+	apiURL: "https://sr.esarnb.com:9080",
+	siteURL: "https://rainforest-deec7.web.app/",
 	adminIDs: [58],
 	emailKey: 'service_diki0ch',
 	emailTemplate: 'template_04qokqf',
