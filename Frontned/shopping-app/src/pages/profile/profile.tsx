@@ -9,6 +9,7 @@ import { NameCardForm } from "./nameForm";
 import { AddressCardForm } from "./addressForm";
 import { CreditCardForm } from "./creditCardForm";
 import Title from "../../components/Title";
+import { EmailCardForm } from "./emailForm";
 
 function Profile() {
 	const [user] = useStickyState(null, 'user');
@@ -25,6 +26,9 @@ function Profile() {
 				<Row className="edit-cards">
 					<Col>
 						<UsernameCardForm user={user} />
+					</Col>
+					<Col>
+						<EmailCardForm user={user}/>
 					</Col>
 					<Col>
 						<NameCardForm user={user} />

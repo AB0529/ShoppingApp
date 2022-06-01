@@ -4,7 +4,7 @@ import { IItem } from "../auth/Typings";
 import Countdown, { zeroPad } from 'react-countdown';
 import config from "../config/config";
 import Title from "./Title";
-import { BsFillLightningChargeFill } from "react-icons/bs";
+import { BsFillLightningChargeFill, BsInfoCircle } from "react-icons/bs";
 import Cart from "./Cart";
 import { useStickyState } from "../state/stickyState";
 import { useNavigate } from "react-router-dom";
@@ -18,9 +18,9 @@ function LightningDeals() {
 	const [user] = useStickyState(null, 'user');
 	const [items, setItems] = useState<Array<IItem>>([]);
 	const [complted, setCompleted] = useState(0);
-	const [show, setShow] = useState(false);
 	const [cartCount] = useGlobalState('cartCount');
 	const [added, setAdded] = useState(false);
+	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -43,32 +43,31 @@ function LightningDeals() {
 	return (
 		<>
 			<Title title="Lightning Deals" color="#a83281" />
-			<Container fluid>
-				{
-					
-				}
-				
-				<Countdown
-					date={Date.now() + TIMER}
-					key={complted}
-					zeroPadTime={2}
-					onComplete={() => {
-						changeItems();
-						setCompleted(1);
-					}}
-					renderer={({ minutes, seconds }) => (
-						<h5>
-							<BsFillLightningChargeFill /> {zeroPad(minutes)}:{zeroPad(seconds)}
-						</h5>
-					)}
-				/>
+			<Countdown
+				date={Date.now() + TIMER}
+				key={complted}
+				onComplete={() => {
+					changeItems();
+					setCompleted(1);
+				}}
+				onStart={() => {
+					setCompleted(0);
+				}}
+				renderer={({ minutes, seconds }) => (
+					<h5>
+						<BsFillLightningChargeFill /> {zeroPad(minutes)}:{zeroPad(seconds)}
+						<Button style={{ paddingBottom: 11 }} variant="link" onClick={handleShow}><BsInfoCircle/></Button>
+					</h5>
+				)}
+			/>
+			<Container fluid className="d-flex justify-content-center align-items-center">
 				{items.map(item => {
 					const oldPrice = item.price;
 					const newPrice = item.price * 0.5;
 
 					return (
 						<div>
-							<Card>
+							<Card style={{ height: '20rem' }}>
 								<Card.Title>{item.name}</Card.Title>
 								<Card.Header>
 									DEAL: <span className="dealPrice" style={{ textDecorationLine: 'line-through', textDecorationStyle: 'solid', color: 'red' }}>${oldPrice}</span>{' '}<span style={{ color: 'green' }}>${newPrice}</span>
@@ -79,20 +78,20 @@ function LightningDeals() {
 									</Card.Text>
 								</Card.Body>
 								<Card.Footer>
-									<Button variant='secondary' disabled={added} onClick={() => {
+									<Button variant='success' disabled={added} onClick={() => {
 										if (!user)
 											navigate('/login');
 
-										setAdded(true);
-										item.deal = true;
-										item.price = newPrice;
-										user.cart.push(item);
 										updateCart(user.cart, user.userID).then((user) => {
+											user.cart.push(item);
+											item.deal = true;
+											item.newPrice = newPrice;
 											setUser(user);
 											setGlobalState('cartCount', cartCount + 1);
-											handleShow();
+											setAdded(true);
+											navigate('/cart');
 										}).catch(e => console.error(`CartItems: ${e}`));
-									}}>Add to Cart</Button>
+									}}>Buy</Button>
 								</Card.Footer>
 							</Card>
 						</div>
@@ -102,12 +101,20 @@ function LightningDeals() {
 
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title></Modal.Title>
+					<Modal.Title>Lightning Deals</Modal.Title>
 				</Modal.Header>
-				<Modal.Body className="text-center" >
-					<h5>Item added to cart</h5>
-					<Cart />
+				<Modal.Body>
+					Lightning deals are special deals where normal items are heavily discoutned.
+					<br />
+					<br />
+					You may only have one lightning deal per session, and must buy it right away.
+					If you add a another item while you have a lightning deal in your cart, the deal will revert to it's normal price.
 				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleClose}>
+						Got it
+					</Button>
+				</Modal.Footer>
 			</Modal>
 		</>
 	)

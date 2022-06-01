@@ -3,12 +3,15 @@ import { Navbar, Container, Nav, Form, FormControl, Button } from "react-bootstr
 import { BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { refreshUser } from "../auth/UserService";
+import config from "../config/config";
+import { useStickyState } from "../state/stickyState";
 
 import Cart from "./Cart";
 import UserIcon from "./UserIcon";
 
 function Bar() {
     const [currentPage, setCurrentPage] = useState('home');
+    const [user] = useStickyState(null, 'user');
 
     // Refresh login
     useEffect(() => {
@@ -43,7 +46,7 @@ function Bar() {
         }
     ].map(item => {
         return (
-            <Nav.Link href={item.href}> {item.name.toLowerCase().toLowerCase().includes(currentPage) ? (<strong>{item.name}</strong>): item.name} </Nav.Link>
+            <Nav.Link href={item.href}> {item.name.toLowerCase().toLowerCase().includes(currentPage) ? (<strong>{item.name}</strong>) : item.name} </Nav.Link>
         )
     });
 
@@ -69,11 +72,14 @@ function Bar() {
         <>
             <Navbar sticky="top" bg="dark" variant="dark" expand="lg">
                 <Container fluid>
-                    <Navbar.Brand href="#">{barBrand}</Navbar.Brand>
+                    <Navbar.Brand href="/">{barBrand}</Navbar.Brand>
                     <Navbar.Toggle aria-controls="bar" />
                     <Navbar.Collapse id="bar">
                         <Nav id="bar" className="me-auto" navbarScroll>
                             {barItems}
+                            {user && config.adminIDs.indexOf(user.userID) !== -1 && (
+                                <Nav.Link href="/admin"> {'admin'.toLowerCase().includes(currentPage) ? (<strong>Admin</strong>) : (<>Admin</>)} </Nav.Link>
+                            )}
                         </Nav>
                         <Nav id="bar" navbarScroll>
                             {searchBar}

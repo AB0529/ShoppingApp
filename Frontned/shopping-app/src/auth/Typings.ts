@@ -4,6 +4,13 @@ export interface ITag {
     item: IItem,
 }
 
+export interface IOrder {
+    orderID: number,
+    status: number,
+    cart: Array<IItem>,
+    userID: number,
+}
+
 export interface IItem {
     price: number,
     name: string,
@@ -12,6 +19,7 @@ export interface IItem {
     tags: Array<ITag>,
     itemID: number
     deal?: boolean
+    newPrice?: number
 }
 
 export interface ICard {
@@ -23,11 +31,12 @@ export interface ICard {
 }
 
 export interface IUser {
-    userID: number
-    name: string
+    userID: number,
+    name: string,
+    email: string,
     userName: string,
     passWord: string,
-    address: string
-    cart: Array<IItem>
-    card: ICard
+    address: string,
+    cart: Array<IItem>,
+    card: ICard,
 }

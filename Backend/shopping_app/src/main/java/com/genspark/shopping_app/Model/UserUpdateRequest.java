@@ -10,7 +10,16 @@ public class UserUpdateRequest {
     private UserCard card;
     private List<Item> cart;
     private UserName name;
+    private String email;
     private int userID;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public int getUserID() {
         return userID;
@@ -64,6 +73,7 @@ public class UserUpdateRequest {
                 ", card=" + card +
                 ", cart=" + cart +
                 ", name=" + name +
+                ", email='" + email + '\'' +
                 ", userID=" + userID +
                 '}';
     }

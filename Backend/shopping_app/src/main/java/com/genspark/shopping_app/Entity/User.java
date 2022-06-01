@@ -19,7 +19,8 @@ public class User {
     private String userName;
     @Column
     private String passWord;
-    //private String email;
+    @Column
+    private String email;
 
     // linking between cart table and user table
 //    @OneToMany(fetch = FetchType.EAGER,mappedBy="cart",cascade = CascadeType.ALL)
@@ -28,10 +29,10 @@ public class User {
     private List<Item> cart;
 
     // linking between card table and user table
-    @OneToOne(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST,CascadeType.REMOVE})
     private Card card;
 
-    public User(int userID, String name, String address, String userName, String passWord, List<Item> cart, Card card) {
+    public User(int userID, String name, String address, String userName, String passWord, List<Item> cart, Card card, String email) {
 
         this.userID = userID;
         this.name = name;
@@ -40,10 +41,19 @@ public class User {
         this.passWord = passWord;
         this.cart = cart;
         this.card = card;
-
+        this.email = email;
     }
 
     public User(){}
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public int getUserID() {
         return userID;

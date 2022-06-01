@@ -71,6 +71,8 @@ public class UserController
 
             user.setUserName(registerRequest.getUsername());
             user.setPassWord(hashedPW);
+            user.setName(registerRequest.getName());
+            user.setEmail(registerRequest.getEmail());
 
             userServiceImp.addUser(user);
             return new ResponseEntity(new ApiResponse("User created", user), HttpStatus.CREATED);
@@ -92,6 +94,8 @@ public class UserController
 
             if (user.getUsername() != null)
                 u.setUserName(user.getUsername());
+            else if (user.getEmail() != null)
+                u.setEmail(user.getEmail());
             else if (user.getAddress() != null)
                 u.setAddress(String.format("%s, %s, %s %d",
                         user.getAddress().getStreet(),
