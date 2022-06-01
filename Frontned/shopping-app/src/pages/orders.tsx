@@ -5,15 +5,17 @@ import Footer from "../components/Footer";
 import { Button, Container, Table } from "react-bootstrap";
 import Title from "../components/Title";
 import { useEffect, useState } from "react";
-import { IOrder } from "../auth/Typings";
+import { IOrder, IUser } from "../auth/Typings";
 import config from "../config/config";
 import { useStickyState } from "../state/stickyState";
 import { updateOrderStatus } from "../auth/api/updateOrderStatus";
+import { getUserByID } from "../auth/api/getUserByID";
 
 function Orders() {
 	const [user] = useStickyState(null, 'user');
 	const { id } = useParams();
 	const [order, setOrder] = useState<IOrder>();
+	const [orderUser, setOrderUser] = useState<IUser>();
 	const navigate = useNavigate();
 	let total = 0;
 
@@ -26,10 +28,17 @@ function Orders() {
 			const data = await resp.json();
 			setOrder(data.result);
 
-			if (!user || (order?.userID != user.userID && !config.adminIDs.includes(user.userID))) {
+			if (!user) {
+				navigate('/login');
+				return;
+			} else if (!config.adminIDs.includes(user.userID) && data.result.userID !== user.userID) {
 				navigate('/login');
 				return;
 			}
+
+			getUserByID(data.result.userID).then(u => {
+				setOrderUser(u);
+			}).catch(e => console.error(`OrderUser: ${e}`));
 
 		}).catch((e) => console.error(`Orerders: ${e}`));
 	}, []);
@@ -38,12 +47,18 @@ function Orders() {
 		<>
 			<Bar />
 
-			<Title title={`Order #${order && order.orderID} Progress`} color="#6a1b9a" />
+			<div className="d-flex align-items-center justify-content-center text-center">
+				<h1 className="title">
+					<strong> Order #{order && order.orderID} </strong>
+					<hr className="title-line" style={{ borderColor: '#6a1b9a' }} />
+				</h1>
+			</div>
 
 			{
 				order && (
 					<>
 						<Container style={{ width: 500 }}>
+							<h5><strong>{orderUser?.name.replace(';', ' ')}'s</strong> Order Progress:</h5>
 							<ProgressBar completed={order.status === 0 ? order.status + 1 * 10 : order.status * 10} />
 						</Container>
 						<br />
@@ -78,13 +93,13 @@ function Orders() {
 								user && config.adminIDs.indexOf(user.userID) !== -1 && (
 									<div>
 										<Button variant="success" onClick={() => {
-											updateOrderStatus(order.status+1, order.orderID).then((o) => {
+											updateOrderStatus(order.status + 1, order.orderID).then((o) => {
 												setOrder(o);
 											}).catch(e => console.error(`UpdateOrderStatus: ${e}`));
 										}}>Add Status</Button>
 										{' '}
 										<Button variant="danger" onClick={() => {
-											updateOrderStatus(order.status-1, order.orderID).then((o) => {
+											updateOrderStatus(order.status - 1, order.orderID).then((o) => {
 												setOrder(o);
 											}).catch(e => console.error(`UpdateOrderStatus: ${e}`));
 										}}>Remove Status</Button>

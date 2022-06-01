@@ -45,7 +45,7 @@ export function UpdateItemForm() {
 										name = i.name;
 									if (description.toLowerCase().startsWith('{current}'))
 										description = i.description;
-									if (price === -1)
+									if (price < 0)
 										price = i.price;
 									if (image.toLowerCase().startsWith('{current}'))
 										image = i.image;
