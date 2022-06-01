@@ -30,25 +30,11 @@ function Checkout() {
 			navigate(-1);
 			return;
 		}
-
-		if (!payment) {
-			setError1('error-border');
-			return;
-		}
-		if (!address) {
-			setError2('error-border');
-			return;
-		}
-
-		if (cart.length <= 0) {
-			navigate('/catalog');
-			return;
-		}
 	}, []);
 
 	return (
 		<>
-			{show ? (
+			{!show && (
 				<><Bar />
 					<Title title="Checkout" color="blue" />
 
@@ -119,11 +105,28 @@ function Checkout() {
 						</Table>
 
 						<Button variant="success" onClick={() => {
+							if (!payment) {
+								setError1('error-border');
+								return;
+							}
+							if (!address) {
+								setError2('error-border');
+								return;
+							}
+
+							if (cart.length <= 0) {
+								navigate('/catalog');
+								return;
+							}
+
 							setShow(true);
 						}}>Checkout</Button>
 					</Container>
 					<Footer className="footer" /></>
-			) : <Shipping />}
+			)}
+			{show && (
+				<Shipping />
+			)}
 		</>
 	)
 }
