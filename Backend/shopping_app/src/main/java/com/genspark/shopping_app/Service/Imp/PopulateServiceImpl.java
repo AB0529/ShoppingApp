@@ -91,7 +91,7 @@ public class PopulateServiceImpl implements PopulateService
                                         item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
                                         item.setTags(tags);
                                         item.setDescription(p.getProperty("description"));
-                                        item.setImage("http://localhost:9080/catalog/" + p.getProperty("image"));
+                                        item.setImage("https://moist.esarnb.com/catalog/" + p.getProperty("image"));
                                         itemServiceImp.addItem(item);
 
                                     } catch (Exception e) {
