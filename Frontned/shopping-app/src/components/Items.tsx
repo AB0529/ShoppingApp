@@ -113,7 +113,6 @@ function Items() {
 										<Button variant="danger" onClick={() => {
 											deleteItem(item.itemID).then(() => {
 												if (user.cart.filter((i: IItem) => i.itemID == item.itemID ).length > 0) {
-													console.log(`AMONMG UIS`)
 													user.cart.splice(user.cart.indexOf(item), 1);
 													updateCart(user.cart, user.userID).then((user) => {
 														setUser(user);

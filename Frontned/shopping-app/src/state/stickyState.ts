@@ -7,7 +7,6 @@ export function useStickyState(defaultValue: IUser | null, key: string) {
 		let stickyValue = window.localStorage.getItem(key);
 
 		if (JSON.parse(stickyValue as string) !== null) {
-			console.log(stickyValue);
 			getUserByID(JSON.parse(stickyValue as string).userID).then((u) => {
 				stickyValue = JSON.stringify(u);
 			});

@@ -51,7 +51,6 @@ export function CreditCardForm(props: IProps) {
 								udpateUserCard(cardNumber, expiration, type, cvc as number, user.userID)
 									.then((user: IUser) => {
 										setUser(user);
-										console.log(user.card);
 										// window.location.reload();
 									}).catch((e: any) => {
 										setSubmitting(false);

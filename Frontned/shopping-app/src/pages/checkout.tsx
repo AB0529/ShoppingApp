@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import { AiFillCreditCard, AiFillHome } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { addOrder } from "../auth/api/addOrder";
 import { updateCart, updateUser } from "../auth/api/updateUser";
 import { ICard, IItem } from "../auth/Typings";
 import { setUser } from "../auth/UserService";
@@ -15,9 +16,30 @@ function Checkout() {
 	const [user] = useStickyState(null, 'user');
 	const [error1, setError1] = useState('');
 	const [error2, setError2] = useState('');
-	const [show, setShow] = useState(<></>);
 	const navigate = useNavigate();
 	let total = 0;
+
+	const checkOutSubmit = () => {
+		{
+			if (!payment) {
+				setError1('error-border');
+				return;
+			}
+			if (!address) {
+				setError2('error-border');
+				return;
+			}
+
+			if (cart.length <= 0) {
+				navigate('/catalog');
+				return;
+			};
+
+			navigate('/shipping', {
+				state: user
+			});
+		}
+	}
 
 	if (!user)
 		navigate(-1);
@@ -26,7 +48,8 @@ function Checkout() {
 	const address = user.address;
 	const cart: Array<IItem> = user.cart;
 
-	const preCheckout = (
+
+	return (
 		<>
 			<Bar />
 			<Title title="Checkout" color="blue" />
@@ -54,7 +77,7 @@ function Checkout() {
 					<Card.Body>
 						<Card.Text className="d-flex align-items-center justify-content-center">
 							{
-								address.length ? (
+								address ? (
 									<h5> <AiFillHome /> {address}</h5>
 								) : (
 									<h5>Uh oh.. you have no address added!</h5>
@@ -97,40 +120,8 @@ function Checkout() {
 					</tbody>
 				</Table>
 
-				<Button variant="success" onClick={() => {
-					if (!payment) {
-						setError1('error-border');
-						return;
-					}
-					if (!address) {
-						setError2('error-border');
-						return;
-					}
-
-					if (cart.length <= 0) {
-						navigate('/catalog');
-						return;
-					}
-
-					// Clear cart
-					updateCart([], user.userID).then(u => {
-						updateUser(u);
-						setUser(u);
-						setShow(<Shipping />);
-					}).catch(e => console.error(`Checkout: ${e}`));
-				}}>Checkout</Button>
+				<Button variant="success" onClick={checkOutSubmit}>Checkout</Button>
 			</Container>
-		</>
-	)
-
-	useEffect(() => {
-		console.log(address);
-		setShow(preCheckout);
-	}, []);
-
-	return (
-		<>
-			{show}
 			<Footer className="footer" />
 		</>
 	)

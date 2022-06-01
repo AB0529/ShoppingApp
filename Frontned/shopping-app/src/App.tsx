@@ -19,15 +19,16 @@ import ShoppingCart from './pages/cart';
 import AboutPage from './pages/aboutPage';
 import { AdminRoute } from './auth/AdminRoute';
 import AdminPage from './pages/admin/adminPage';
-import Shipping from './pages/shipping';
 import Checkout from './pages/checkout';
+import Shipping from './pages/shipping';
+import Orders from './pages/orders';
 
 function App() {
   const [theme, themeToggler] = useTheme();
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
 
   return (
-    
+
     <ThemeProvider theme={themeMode}>
       <>
         <GlobalStyles />
@@ -48,6 +49,12 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/catalog" element={<Catalog />} />
+              <Route path="/shipping" element={<PrivateRoute />}>
+                <Route path="/shipping" element={<Shipping />} />
+              </Route>
+              <Route path="/orders/:id/" element={<PrivateRoute />}>
+                <Route path="/orders/:id/" element={<Orders />} />
+              </Route>
               <Route path="/checkout" element={<PrivateRoute />}>
                 <Route path="/checkout" element={<Checkout />} />
               </Route>
