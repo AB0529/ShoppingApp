@@ -16,11 +16,11 @@ import Profile from './pages/profile/profile';
 import Toggle from './components/ThemeToggler';
 import Catalog from './pages/catalog';
 import ShoppingCart from './pages/cart';
-import Checkout from './pages/checkout';
 import AboutPage from './pages/aboutPage';
 import { AdminRoute } from './auth/AdminRoute';
 import AdminPage from './pages/admin/adminPage';
-
+import Shipping from './pages/shipping';
+import Checkout from './pages/checkout';
 
 function App() {
   const [theme, themeToggler] = useTheme();

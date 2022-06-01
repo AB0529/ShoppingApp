@@ -2,13 +2,12 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Card, FormGroup } from "react-bootstrap";
 
 import * as Yup from 'yup';
-import { addItem } from "../../auth/api/addItem";
 import { deleteItem } from "../../auth/api/deleteItem";
 
 export function DeleteItemForm() {
 	return (
 		(
-			<Card style={{ width: '18rem', height: '30rem' }}>
+			<Card style={{ width: '18rem', height: '35rem' }}>
 				<Card.Body>
 					<Card.Title>Delete Item</Card.Title>
 					<Card.Subtitle className="mb-2 text-muted">Delete an item from the database</Card.Subtitle>
@@ -37,7 +36,7 @@ export function DeleteItemForm() {
 									}, 3e3);
 									setSubmitting(false);
 								}).catch(e => {
-									setStatus({type: 'fail', msg: e})
+									setStatus({type: 'fail', msg: 'Item does not exist'})
 									setSubmitting(false);
 								});
 							}}

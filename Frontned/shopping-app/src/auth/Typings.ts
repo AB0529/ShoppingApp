@@ -12,6 +12,7 @@ export interface IItem {
     tags: Array<ITag>,
     itemID: number
     deal?: boolean
+    newPrice?: number
 }
 
 export interface ICard {

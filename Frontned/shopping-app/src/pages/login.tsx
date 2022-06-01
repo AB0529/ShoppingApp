@@ -29,8 +29,10 @@ function Login() {
 							})}
 							onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
 								setStatus();
+								setSubmitting(true);
 								login(username, password)
 									.then(() => {
+										setSubmitting(false);
 										navigate(-1);
 									}).catch(() => {
 										setSubmitting(false);

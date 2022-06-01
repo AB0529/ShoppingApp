@@ -105,7 +105,7 @@
   border-left-color: crimson;
 }
 
-.checkout-wrapper {
+.shipping-wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -199,4 +199,8 @@ padding-top: 25vh;
   position: absolute;
   width: 100%;
   bottom: 0;
+}
+
+.error-border {
+  border-color: red;
 }

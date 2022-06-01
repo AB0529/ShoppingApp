@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
@@ -7,27 +8,42 @@ import { removeFromCart, setUser } from "../auth/UserService";
 import Bar from "../components/Bar";
 import Footer from "../components/Footer";
 import Title from "../components/Title";
-import config from "../config/config";
 import { useStickyState } from "../state/stickyState";
 
 function ShoppingCart() {
-	const navigate = useNavigate();
 	const [user] = useStickyState(null, 'user');
+	const navigate = useNavigate();
+
+	if (!user)
+		navigate('/login');
+
 	let total = 0;
+	const counts: any = {};
+
+	user.cart.forEach((i: IItem) => {
+		let c = counts[i.name] ? counts[i.name].count : 0;
+
+		counts[i.name] = {
+			count: c + 1,
+			item: i
+		};
+	});
 
 	const orderTable = (
-		<Table striped bordered hover>
+		<Table bordered hover>
 			<thead>
 				<tr>
 					<th />
+					<th>Count</th>
 					<th>Name</th>
 					<th>Description</th>
 					<th>Price</th>
 				</tr>
 			</thead>
 			<tbody>
-				{user && user.cart.map((item: IItem) => {
-					total += item.price;
+				{user && Object.keys(counts).map((k: string) => {
+					let item = counts[k].item;
+					total += item.deal ? item.newPrice : item.price;
 
 					return (
 						<tr>
@@ -38,7 +54,10 @@ function ShoppingCart() {
 									<AiFillDelete size={25} />
 								</Button>
 							</td>
-							<td valign="middle" align="center" width={100}>
+							<td valign="middle" align="center">
+								<h5>x<strong>{counts[k].count}</strong></h5>
+							</td>
+							<td valign="middle" align="center" width={125}>
 								<img
 									className="item-img"
 									src={item.image}
@@ -46,32 +65,34 @@ function ShoppingCart() {
 									height="64"
 									alt="item-img"
 								/>
-								<h5>{item.name}</h5>
+								<h5>{item.name} <strong></strong></h5>
 							</td>
 							<td>
 								<h5>{item.description}</h5>
 							</td>
 							<td width={100}>
-								<h5>{item.deal ? (<h1>Hi</h1>) : (<span>${item.price}</span>)}</h5>
+								<h5>{item.deal ? (
+									<div>
+										<span className="dealPrice" style={{ textDecorationLine: 'line-through', textDecorationStyle: 'solid', color: 'red' }}>${item.price.toFixed(2)}</span>{' '}<span style={{ color: 'green' }}>${item.newPrice.toFixed(2)}</span>
+									</div>
+								) : (<span style={{color: 'green'}}>${(item.price * counts[k].count).toFixed(2)}</span>)}</h5>
 							</td>
 						</tr>
 					)
 				})
 				}
 				<tr>
+					<td>
+						<Button variant="success" onClick={() => {
+							navigate('/checkout');
+ 						}}>Checkout</Button>
+					</td>
 					<td />
 					<td />
 					<td />
-					<td>Total: ${total}</td>
+					<td>Total: ${total.toFixed(2)}</td>
 
 				</tr>
-				<Button variant="success" onClick={() => {
-					// Clears user cart
-					updateCart([], user.userID).then((user) => {
-						setUser(user);
-						navigate('/checkout');
-					}).catch(e => console.error(`Checkout: ${e}`));
-				}}>Checkout</Button>
 			</tbody>
 		</Table>
 	)
@@ -88,7 +109,7 @@ function ShoppingCart() {
 						</Container>
 					)) : (
 					<Container fluid className="d-flex align-items-center justify-content-center">
-						<Card style={{width: '18rem'}}>
+						<Card style={{ width: '18rem' }}>
 							<Card.Body>
 								<Card.Text className="d-flex align-items-center justify-content-center">
 									<h5>It's empty...</h5>

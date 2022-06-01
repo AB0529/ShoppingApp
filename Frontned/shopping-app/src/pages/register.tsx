@@ -8,6 +8,7 @@ import Bar from "../components/Bar";
 import Footer from "../components/Footer";
 import { registerUser } from "../auth/api/registerUser";
 import { setUser } from "../auth/UserService";
+import { BsFillPencilFill, BsPencil } from "react-icons/bs";
 
 function Register() {
 	const navigate = useNavigate();
@@ -22,22 +23,26 @@ return (
 						<Formik
 							initialValues={{
 								username: '',
+								firstName: '',
+								lastName: '',
 								password: '',
 								confirmPassword: '',
 							}}
 							validationSchema={Yup.object().shape({
 								username: Yup.string().required('Username is required'),
+								firstName: Yup.string().required('First name is required'),
+								lastName: Yup.string().required('Last name is required'),
 								password: Yup.string().required('Password is required'),
 								confirmPassword: Yup.string().required('Type your password again').oneOf([Yup.ref('password'), null], 'Passwords must match')
 							})}
-							onSubmit={async ({ username, password }, { setStatus, setSubmitting }) => {
+							onSubmit={async ({ username, firstName, lastName, password }, { setStatus, setSubmitting }) => {
 								setSubmitting(true);
 								setStatus();
 
-								registerUser(username, password)
+								registerUser(username, firstName, lastName, password)
 									.then((u) => {
-										navigate("/");
 										setUser(u);
+										navigate("/");
 									}).catch((e: any) => {
 										setSubmitting(false);
 										setStatus("Something went wrong: " + e);
@@ -49,6 +54,16 @@ return (
 										<label htmlFor="username"> <BiUserCircle /> <strong>Username</strong></label>
 										<Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
 										<ErrorMessage name="username" component="div" className="invalid-feedback" />
+									</div>
+									<div className="form-group">
+										<label htmlFor="firstName"> <BsFillPencilFill /> <strong>First Name</strong></label>
+										<Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
+										<ErrorMessage name="firstName" component="div" className="invalid-feedback" />
+									</div>
+									<div className="form-group">
+										<label htmlFor="lastName"> <BsPencil /> <strong>Last Name</strong></label>
+										<Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
+										<ErrorMessage name="lastName" component="div" className="invalid-feedback" />
 									</div>
 									<div className="form-group">
 										<label htmlFor="password"> <BiLock /> <strong>Password</strong></label>
