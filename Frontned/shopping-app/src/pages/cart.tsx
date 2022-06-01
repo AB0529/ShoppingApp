@@ -60,7 +60,7 @@ function ShoppingCart() {
 										if (!item)
 											return;
 
-										total += item.deal ? item.newPrice : item.price;
+										total += item.deal ? item.newPrice : item.price * (counts as any).count;
 										
 										return (
 											<tr>
