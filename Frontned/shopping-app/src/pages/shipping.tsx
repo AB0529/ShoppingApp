@@ -37,7 +37,7 @@ function Shipping() {
 
         (!seen && addOrder(user.cart, user.userID).then((order) => {
             const btn = (
-                <a href={`http://localhost:3000/orders/${order?.orderID}`}>
+                <a href={`${config.siteURL}/orders/${order?.orderID}`}>
                     <Button variant="success">View Order</Button>
                 </a>
 
