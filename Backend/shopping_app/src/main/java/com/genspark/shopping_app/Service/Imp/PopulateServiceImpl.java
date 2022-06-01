@@ -63,7 +63,7 @@ public class PopulateServiceImpl implements PopulateService
 
 
     public String test(){
-        try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
+        try (Stream<Path> paths = Files.walk(Paths.get(getClass().getClassLoader().getResource("static/catalog").getPath())))
 
         {
             System.out.println("after stream");
@@ -91,7 +91,7 @@ public class PopulateServiceImpl implements PopulateService
                                         item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
                                         item.setTags(tags);
                                         item.setDescription(p.getProperty("description"));
-                                        item.setImage("http://localhost:9080/catalog/" + p.getProperty("image"));
+                                        item.setImage("https://moist.esarnb.com/catalog/" + p.getProperty("image"));
                                         itemServiceImp.addItem(item);
 
                                     } catch (Exception e) {
