@@ -1,33 +1,54 @@
 package com.genspark.shopping_app.Entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name="tbl_orders");
+@Table(name="tbl_orders")
 public class Order {
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO);
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderID;
-
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "userID")
-    private User user;
-
     @Column
     private int status;
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private List<Item> cart;
 
-    public Order(int orderID, User user, int status) {
+    @Column
+    private int userID;
+
+    public Order(int orderID, int status, List<Item> cart, int userID) {
         this.orderID = orderID;
-        this.user = user;
         this.status = status;
+        this.cart = cart;
+        this.userID = userID;
     }
 
-    public User getUser() {
-        return user;
+    public Order() {}
+
+
+    public int getUserID() {
+        return userID;
     }
 
-    public int getOrderID() {
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
+    }
+
+    public List<Item> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<Item> cart) {
+        this.cart = cart;
+    }
+
+    public long getOrderID() {
         return orderID;
     }
 
@@ -39,11 +60,14 @@ public class Order {
         this.status = status;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderID=" + orderID +
+                ", status=" + status +
+                ", cart=" + cart +
+                ", userID=" + userID +
+                '}';
     }
 }

@@ -40,7 +40,6 @@ public class User {
         this.passWord = passWord;
         this.cart = cart;
         this.card = card;
-
     }
 
     public User(){}
