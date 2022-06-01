@@ -31,8 +31,9 @@ export interface ICard {
 }
 
 export interface IUser {
-    userID: number
-    name: string
+    userID: number,
+    name: string,
+    email: string,
     userName: string,
     passWord: string,
     address: string,

@@ -33,7 +33,7 @@ function Login() {
 								login(username, password)
 									.then(() => {
 										setSubmitting(false);
-										navigate(-1);
+										navigate('/');
 									}).catch(() => {
 										setSubmitting(false);
 										setStatus("Invalid login");

@@ -9,6 +9,7 @@ import Footer from "../components/Footer";
 import { registerUser } from "../auth/api/registerUser";
 import { setUser } from "../auth/UserService";
 import { BsFillPencilFill, BsPencil } from "react-icons/bs";
+import { AiOutlineMail } from "react-icons/ai";
 
 function Register() {
 	const navigate = useNavigate();
@@ -25,6 +26,7 @@ return (
 								username: '',
 								firstName: '',
 								lastName: '',
+								email: '',
 								password: '',
 								confirmPassword: '',
 							}}
@@ -32,14 +34,15 @@ return (
 								username: Yup.string().required('Username is required'),
 								firstName: Yup.string().required('First name is required'),
 								lastName: Yup.string().required('Last name is required'),
+								email: Yup.string().email('Enter a valid email').required('Email is required'),
 								password: Yup.string().required('Password is required'),
 								confirmPassword: Yup.string().required('Type your password again').oneOf([Yup.ref('password'), null], 'Passwords must match')
 							})}
-							onSubmit={async ({ username, firstName, lastName, password }, { setStatus, setSubmitting }) => {
+							onSubmit={async ({ username, firstName, lastName, email, password }, { setStatus, setSubmitting }) => {
 								setSubmitting(true);
 								setStatus();
 
-								registerUser(username, firstName, lastName, password)
+								registerUser(username, firstName, lastName, email, password)
 									.then((u) => {
 										setUser(u);
 										navigate("/");
@@ -64,6 +67,11 @@ return (
 										<label htmlFor="lastName"> <BsPencil /> <strong>Last Name</strong></label>
 										<Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
 										<ErrorMessage name="lastName" component="div" className="invalid-feedback" />
+									</div>
+									<div className="form-group">
+										<label htmlFor="email"> <AiOutlineMail /> <strong>Email</strong></label>
+										<Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+										<ErrorMessage name="email" component="div" className="invalid-feedback" />
 									</div>
 									<div className="form-group">
 										<label htmlFor="password"> <BiLock /> <strong>Password</strong></label>

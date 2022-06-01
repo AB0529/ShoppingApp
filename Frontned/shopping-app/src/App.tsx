@@ -22,6 +22,8 @@ import AdminPage from './pages/admin/adminPage';
 import Checkout from './pages/checkout';
 import Shipping from './pages/shipping';
 import Orders from './pages/orders';
+import { useStickyState } from './state/stickyState';
+import { IUser } from './auth/Typings';
 
 function App() {
   const [theme, themeToggler] = useTheme();
@@ -49,9 +51,9 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/catalog" element={<Catalog />} />
-              <Route path="/shipping" element={<PrivateRoute />}>
+              {/* <Route path="/shipping" element={<PrivateRoute />}>
                 <Route path="/shipping" element={<Shipping />} />
-              </Route>
+              </Route> */}
               <Route path="/orders/:id/" element={<PrivateRoute />}>
                 <Route path="/orders/:id/" element={<Orders />} />
               </Route>

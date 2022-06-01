@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Bar from "../components/Bar";
 import Footer from "../components/Footer";
@@ -14,13 +14,23 @@ function Orders() {
 	const [user] = useStickyState(null, 'user');
 	const { id } = useParams();
 	const [order, setOrder] = useState<IOrder>();
+	const navigate = useNavigate();
 	let total = 0;
 
 	useEffect(() => {
 		fetch(`${config.apiURL}/orders/${id}`).then(async resp => {
+			if (!resp.ok) {
+				navigate(-1);
+				return;
+			}
 			const data = await resp.json();
-
 			setOrder(data.result);
+
+			if (!user || (order?.userID != user.userID && !config.adminIDs.includes(user.userID))) {
+				navigate('/login');
+				return;
+			}
+
 		}).catch((e) => console.error(`Orerders: ${e}`));
 	}, []);
 

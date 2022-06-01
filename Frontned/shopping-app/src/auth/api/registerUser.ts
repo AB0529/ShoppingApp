@@ -2,7 +2,7 @@ import config from "../../config/config";
 import { IUser } from "../Typings";
 import { handleResponse } from "./handleResponse";
 
-export function registerUser(username: string, firstName: string, lastName: string, password: string) {
+export function registerUser(username: string, firstName: string, lastName: string, email: string, password: string) {
 	return new Promise<IUser>(async (resolve, reject) => {
 		if (!username || !password || !firstName || !lastName)
 			return reject('No detailss provided');
@@ -11,7 +11,7 @@ export function registerUser(username: string, firstName: string, lastName: stri
 		const resp = await fetch(`${config.apiURL}/users/register`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ username: username, password: password, name: name, })
+			body: JSON.stringify({ username: username, password: password, email: email, name: name, })
 		});
 		const user: IUser = await handleResponse(resp).catch((e: any) => {
 			return reject(e)
