@@ -71,6 +71,7 @@ public class UserController
 
             user.setUserName(registerRequest.getUsername());
             user.setPassWord(hashedPW);
+            user.setName(registerRequest.getName());
 
             userServiceImp.addUser(user);
             return new ResponseEntity(new ApiResponse("User created", user), HttpStatus.CREATED);

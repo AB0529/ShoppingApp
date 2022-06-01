@@ -14,7 +14,7 @@ public class Tag {
     @Column
     private String tag;
     // linking between tag table and item table
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne(cascade= CascadeType.REMOVE)
     @JoinColumn(name = "itemID")
     private Item item;
 

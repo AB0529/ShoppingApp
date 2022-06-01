@@ -28,7 +28,7 @@ public class User {
     private List<Item> cart;
 
     // linking between card table and user table
-    @OneToOne(fetch = FetchType.EAGER,mappedBy="user",cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST,CascadeType.REMOVE})
     private Card card;
 
     public User(int userID, String name, String address, String userName, String passWord, List<Item> cart, Card card) {
