@@ -63,7 +63,7 @@ public class PopulateServiceImpl implements PopulateService
 
 
     public String test(){
-        try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
+        try (Stream<Path> paths = Files.walk(Paths.get(getClass().getClassLoader().getResource("static/catalog").getPath())))
 
         {
             System.out.println("after stream");
