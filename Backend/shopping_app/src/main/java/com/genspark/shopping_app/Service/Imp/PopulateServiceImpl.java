@@ -25,49 +25,9 @@ public class PopulateServiceImpl implements PopulateService
     public ItemServiceImp itemServiceImp;
 
     @Override
-    public String populateDatabase()
-    {
-        /*
-        scanning all the files in the folder, excluding test.txt because it is blank
-        parsing the files for the information for the items
-         */
-        System.out.println("before stream");
-        try{
-            InputStream in = new FileInputStream("E:\\GenSpark\\ShoppingApp\\Backend\\shopping_app\\src\\main\\resources\\static\\catalog\\Army_Watch.properties");
-            //Scanner myReader = new Scanner(myObj);
-            File file = new File("Army_Watch.properties");
-            Item item = new Item();
-            item.setName(file.getName().replace(".properties", "").replace("_", " "));
-
-            Properties p = new Properties();
-            p.load(in);
-            List<Tag> tags = new ArrayList<>();
-            for (String s : p.getProperty("tags").split(",")) {
-                Tag t = new Tag();
-                t.setTag(s);
-
-                tags.add(t);
-            }
-            item.setPrice(Double.parseDouble(p.getProperty("price").replace(",", "")));
-            item.setTags(tags);
-            item.setDescription(p.getProperty("description"));
-            itemServiceImp.addItem(item);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        return itemServiceImp.getAllItems().toString();
-    }
-
-
-    public String test(){
+    public String populateDatabase(){
         try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
-
         {
-            System.out.println("after stream");
-
             paths.map(Path::toFile)
                     .forEach((File file) ->
                             {
