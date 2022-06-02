@@ -25,8 +25,8 @@ public class PopulateServiceImpl implements PopulateService
     public ItemServiceImp itemServiceImp;
 
     @Override
-    public String populateDatabase()
-    {
+    public String populateDatabase(){
+        try (Stream<Path> paths = Files.walk(Paths.get("src/main/resources/static/catalog")))
         /*
         scanning all the files in the folder, excluding test.txt because it is blank
         parsing the files for the information for the items
@@ -64,10 +64,7 @@ public class PopulateServiceImpl implements PopulateService
 
     public String test(){
         try (Stream<Path> paths = Files.walk(Paths.get(getClass().getClassLoader().getResource("static/catalog").getPath())))
-
         {
-            System.out.println("after stream");
-
             paths.map(Path::toFile)
                     .forEach((File file) ->
                             {

@@ -151,8 +151,7 @@ public class UserController
 
     @GetMapping("/t")
     public  ResponseEntity t() {
-        //String s = populateService.populateDatabase();
-        String s = populateService.test();
+        String s = populateService.populateDatabase();
 
         return new ResponseEntity(new ApiResponse(s, null), HttpStatus.OK);
     }
