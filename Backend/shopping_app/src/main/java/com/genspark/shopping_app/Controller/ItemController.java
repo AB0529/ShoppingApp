@@ -71,8 +71,12 @@ public class ItemController {
     }
 
     @DeleteMapping("/delete/{iId}")
-    public ResponseEntity deleteItem(@PathVariable int iId){
-        return new ResponseEntity(new ApiResponse("Item deleted", this.itemServiceImp.deleteItemByID(iId)), HttpStatus.OK);
+    public ResponseEntity deleteItem(@PathVariable int iId) {
+        try {
+            return new ResponseEntity(new ApiResponse("Item deleted", this.itemServiceImp.deleteItemByID(iId)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(new ApiResponse(e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

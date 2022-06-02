@@ -29,9 +29,11 @@ function Login() {
 							})}
 							onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
 								setStatus();
+								setSubmitting(true);
 								login(username, password)
 									.then(() => {
-										navigate(-1);
+										setSubmitting(false);
+										navigate('/');
 									}).catch(() => {
 										setSubmitting(false);
 										setStatus("Invalid login");

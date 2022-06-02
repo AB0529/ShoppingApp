@@ -12,7 +12,7 @@ function Home() {
     const [items, setItems] = useState<Array<IItem>>([]);
 
     useEffect(() => {
-        fetch(`${config.apiURL}/items/all/5`).then(resp => resp.json()).then((data) => {
+        fetch(`${config.apiURL}/items/random/5`).then(resp => resp.json()).then((data) => {
             setItems(data.result);
         }).catch((e) => console.error(`Something went wrong: ${e}`))
     }, []);
